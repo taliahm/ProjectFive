@@ -14,7 +14,7 @@
 		<form class="userInput">
 			<p>I am looking for</p>
 			<select name="alcoholType" id="alcoholType">
-				<option value="beer">Beer&Cider</option>
+				<option value="beer">Beer&amp;Cider</option>
 				<option value="wine">Wine</option>
 				<option value="gin">Spirits</option>
 				<option value="vodka">Coolers</option>
@@ -45,12 +45,13 @@
 			<input type="submit" value="Gift Me!" id="giftMe">
 		</form>
 	</section>
-	<section class="mapResults">
+	<section class="mapContainer">
 		<div id="map">
 			<!-- Google map goes here -->
 		</div>
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1vK0MIE7F_vscivjngniPPJaSK3A1C0E"></script>
 	<script src="dev/scripts/main.js"></script>
 </body>
 </html>

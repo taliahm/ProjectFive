@@ -2,6 +2,13 @@ body {
 	background: thistle;
 }
 
+.mapContainer {
+	width: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
 #map {
-	height:200px;
+	width: 100%;
 }
