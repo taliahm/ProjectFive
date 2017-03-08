@@ -244,20 +244,20 @@ giftApp.getUserChoice = () => {
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
-		let finalBudgetArray = finalArray.filter((element) => {
+		var finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents < 2000;
 		})
 		console.log('lowest of budget', finalBudgetArray);
 		
 	}
 	else if(giftApp.userBudget === 'medium') {
-		let finalBudgetArray = finalArray.filter((element) => {
+		var finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
 		})
 		console.log('medium of budgets', finalBudgetArray);
 	} 
 	else if(giftApp.userBudget === 'high') {
-		let finalBudgetArray = finalArray.filter((element) => {
+		var finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 4001;
 		})
 		console.log('highest of budgets',  finalBudgetArray);
