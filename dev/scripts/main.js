@@ -30,8 +30,63 @@
 //Name spacing
 const giftApp = {};
 
-const giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
-const giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
-const giftApp.lcboUrl = 'http://lcboapi.com/';
+giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
+giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
+giftApp.lcboUrl = 'http://lcboapi.com/';
+giftApp.occasions = [
+	{ 
+		occasion: 'birthday',
+		stressLevel: false
+	},{
+		
+	},{},{}];
 
- 
+//Function to get user's location
+giftApp.getUserLocation = () => {
+	// function initMap() {
+	        var map = new google.maps.Map(document.getElementById('map'), {
+	          center: {lat: -34.397, lng: 150.644},
+	          zoom: 6
+	        });
+	        // var infoWindow = new google.maps.InfoWindow({map: map});
+	        // // Try HTML5 geolocation.
+	        //      if (navigator.geolocation) {
+	        //        navigator.geolocation.getCurrentPosition(function(position) {
+	        //          var pos = {
+	        //            lat: position.coords.latitude,
+	        //            lng: position.coords.longitude
+	        //          };
+
+	        //          infoWindow.setPosition(pos);
+	        //          infoWindow.setContent('Location found.');
+	        //          map.setCenter(pos);
+	        //        }, function() {
+	        //          handleLocationError(true, infoWindow, map.getCenter());
+	        //        });
+	        //      } else {
+	        //        // Browser doesn't support Geolocation
+	        //        handleLocationError(false, infoWindow, map.getCenter());
+	        //      }
+	        //    }
+
+	        //    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	        //      infoWindow.setPosition(pos);
+	        //      infoWindow.setContent(browserHasGeolocation ?
+	        //                            'Error: The Geolocation service failed.' :
+	        //                            'Error: Your browser doesn\'t support geolocation.');
+	           // }
+	
+}
+
+giftApp.events = () => {
+	console.log('hello');
+	giftApp.getUserLocation();
+}
+
+giftApp.init = () => {
+	giftApp.events();
+} 
+
+$(function() {
+   giftApp.init();
+});

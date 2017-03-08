@@ -4,10 +4,18 @@
 	<meta charset="UTF-8">
 	<title>What Should I Bring?</title>
 	<link rel="stylesheet" href="public/styles/style.css">
+	<script async defer
+	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1vK0MIE7F_vscivjngniPPJaSK3A1C0E&callback=giftApp.getUserLocation">
+	    </script>
 </head>
 <body>
 	<h1>What Should I Bring?</h1>
-	<h2>Yo?</h2>
-	<h3>Yo 2?</h3>
+	<section class="mapResults">
+		<div id="map">
+			<!-- Google map goes here -->
+		</div>
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="dev/scripts/main.js"></script>
 </body>
 </html>
