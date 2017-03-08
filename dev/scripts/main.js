@@ -35,11 +35,39 @@ giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
 giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.occasions = [
 	{ 
-		occasion: 'birthday',
+		occasion: 'tuesday',
 		stressLevel: false
 	},{
-		
-	},{},{}];
+		occasion: 'anniversary',
+		stressLevel: true
+	},{
+		occasion: 'surprise',
+		stressLevel: false
+	},{
+		occasion: 'meetingParents',
+		stressLevel: true
+	}, {
+		occasion: 'potluck',
+		stressLevel: false
+	}, {
+		occasion: 'dinnerBoss',
+		stressLevel: true
+	}, {
+		occasion: 'sorryGift',
+		stressLevel: true
+	}, {
+		occasion: 'netflixSpill',
+		stressLevel: false
+	}, {
+		occasion: 'gameNight',
+		stressLevel: false
+	}, {
+		occasion: 'holidayParty',
+		stressLevel: true
+	}, {
+		occasion: 'present',
+		streeLevel: true
+	}];
 
 giftApp.getLcboProductReturn = () => {
 	$.ajax({
