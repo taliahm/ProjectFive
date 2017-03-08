@@ -115,8 +115,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
 		let finalAlcoholArray = combinedAlcoholArray.filter(function(element){
 			return element.primary_category === userInput;
 		});
-		console.log(finalAlcoholArray);
-
+		giftApp.filterByBudget(finalAlcoholArray);
 	})
 
 }
@@ -188,6 +187,27 @@ giftApp.getUserChoice = () => {
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);
 	})
 } //end of getUserChoice()
+
+giftApp.filterByBudget = (finalArray) => {
+	if(giftApp.userBudget === 'low'){
+		let finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents < 2000;
+		})
+		
+	}
+	else if(giftApp.userBudget === 'medium') {
+		let finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
+		})
+	} 
+	else if(giftApp.userBudget === 'high') {
+		let finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents > 4001;
+		})
+		console.log('highest of budgets',  finalBudgetArray);
+	}
+
+}
 
 giftApp.getStressOfOccasion = (param) => {
 	let filteredOccasion = giftApp.occasions.filter((item) => item.occasion === param);
