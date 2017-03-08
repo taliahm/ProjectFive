@@ -11,7 +11,7 @@
 <body>
 	<section>
 		<h1>What Should I Bring?</h1>
-		<div class="userInput">
+		<form class="userInput">
 			<p>I am looking for</p>
 			<select name="alcoholType" id="alcoholType">
 				<option value="beer">Beer&Cider</option>
@@ -22,6 +22,7 @@
 			</select>
 			<p>for a</p>
 			<select name="occasion" id="occasion">
+			<!-- value corresponds to name of objects in js file -->
 				<option value="tuesday">Tuesday</option>
 				<option value="anniversary">Anniversary</option>
 				<option value="surprise">Surprise birthday party </option>
@@ -34,7 +35,15 @@
 				<option value="holidayParty">Holiday party </option>
 				<option value="present">Hostess present</option>
 			</select>
-		</div>
+			<p>I have</p>
+			<select name="budget" id="budget">
+				<option value="low">$0-$40</option>
+				<option value="medium">$40-$70</option>
+				<option value="high">$70 and above</option>
+			</select>
+			<p>to spend.</p>
+			<input type="submit" value="Gift Me!">
+		</form>
 	</section>
 	<section class="mapResults">
 		<div id="map">
