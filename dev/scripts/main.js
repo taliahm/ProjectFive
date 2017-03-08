@@ -159,11 +159,13 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn) {
 
 //Jessica is testing map things
 
+var map;
+
 function initMap() {
   // Create a map object and specify the DOM element for display.
-  var map = new google.maps.Map(document.getElementById('map'), {
+   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
-    scrollwheel: false,
+    // scrollwheel: false,
     zoom: 8
   });
 }
