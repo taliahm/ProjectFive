@@ -70,7 +70,7 @@ giftApp.occasions = [
 	}];
 
 giftApp.getLcboProductReturn = () => {
-	$.ajax({
+	giftApp.getAlcohol = $.ajax({
 	    url: 'http://proxy.hackeryou.com',
 	    dataType: 'json',
 	    method:'GET',
@@ -79,16 +79,43 @@ giftApp.getLcboProductReturn = () => {
 	        params: {
 	            key: giftApp.lcboKey,
 	            per_page: 100,
+	            page: 1
 	        },
 	        xmlToJSON: false
 	    }
-	})
-	// Stores the data from the array into a variable
-	.then(function(result) {
-		let productResult = result;
-		console.log('Product results', productResult);
+	});$.when(giftApp.getAlcohol).done(function(alcoholData){
+		var firstArrayReturn = alcoholData.result;
+		giftApp.getLcboProductReturnTwo(firstArrayReturn)
 	});
 }
+
+giftApp.getLcboProductReturnTwo = function(firstArrayReturn) {
+	giftApp.getAlcoholTwo = $.ajax({
+	    url: 'http://proxy.hackeryou.com',
+	    dataType: 'json',
+	    method:'GET',
+	    data: {
+	        reqUrl: 'http://lcboapi.com/products',
+	        params: {
+	            key: giftApp.lcboKey,
+	            per_page: 100,
+	            page: 3
+	        },
+	        xmlToJSON: false
+	    }
+	});$.when(giftApp.getAlcoholTwo).done(function(alcoholDataTwo){
+		let secondArrayReturn = alcoholDataTwo.result;
+		let finalAlcoholArray = [...firstArrayReturn,...secondArrayReturn];
+
+		console.log(finalAlcoholArray)
+
+	})
+
+}
+
+
+
+
 
 //Function to get user's location
 // giftApp.getUserLocation = () => {
