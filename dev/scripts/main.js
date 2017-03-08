@@ -262,7 +262,29 @@ giftApp.filterByBudget = (finalArray) => {
 		})
 		console.log('highest of budgets',  finalBudgetArray);
 	}
+}
 
+//THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
+giftApp.displayAlcohol = (array) => {
+	$('.results').empty();
+	var elemArray = array.forEach((item) =>{
+		let elemString = `
+		<input type="radio" name="chooseAlcohol" data-id="${item.id}" id="${item.id}">
+		<label for="${item.id}">
+			<div class="imageContain">
+				<img src="${item.image_url}" alt="${item.name}">
+			</div>
+			<div class="text">
+				<h2>${item.name}</h2>
+				<p>${item.origin}</p>
+				<p>${item.style}</p>
+				<p>${item.producer_name}</p>
+			</div>
+		</label>`
+		let allElems = $('<div class="resultItem">').append(elemString);
+		console.log(allElems);
+		$('.results').append(allElems);
+	})
 }
 
 giftApp.getStressOfOccasion = (param) => {
