@@ -90,11 +90,32 @@ giftApp.getLcboProductReturn = (userInput) => {
 	    }
 	});$.when(giftApp.getAlcohol).done(function(alcoholData){
 		var firstArrayReturn = alcoholData.result;
-		giftApp.getLcboProductReturnTwo(firstArrayReturn, userInput)
+		giftApp.getLcboProductReturnThree(firstArrayReturn, userInput)
 	});
 }
 
-giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
+giftApp.getLcboProductReturnThree = (firstArrayReturn, userInput) => {
+	giftApp.getAlcohol = $.ajax({
+	    url: 'http://proxy.hackeryou.com',
+	    dataType: 'json',
+	    method:'GET',
+	    data: {
+	        reqUrl: 'http://lcboapi.com/products',
+	        params: {
+	            key: giftApp.lcboKey,
+	            per_page: 100,
+	            page: 5,
+	            q: userInput
+	        },
+	        xmlToJSON: false
+	    }
+	});$.when(giftApp.getAlcohol).done(function(alcoholData){
+		var thirdArrayReturn = alcoholData.result;
+		giftApp.getLcboProductReturnTwo(firstArrayReturn, thirdArrayReturn, userInput)
+	});
+}
+
+giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, userInput) {
 	giftApp.getAlcoholTwo = $.ajax({
 	    url: 'http://proxy.hackeryou.com',
 	    dataType: 'json',
@@ -111,7 +132,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
 	    }
 	});$.when(giftApp.getAlcoholTwo).done(function(alcoholDataTwo){
 		let secondArrayReturn = alcoholDataTwo.result;
-		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn];
+		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn,...thirdArrayReturn];
 		let finalAlcoholArray = combinedAlcoholArray.filter(function(element){
 			return element.primary_category === userInput;
 		});
@@ -193,12 +214,14 @@ giftApp.filterByBudget = (finalArray) => {
 		let finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents < 2000;
 		})
+		console.log('lowest of budget', finalBudgetArray);
 		
 	}
 	else if(giftApp.userBudget === 'medium') {
 		let finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
 		})
+		console.log('medium of budgets', finalBudgetArray);
 	} 
 	else if(giftApp.userBudget === 'high') {
 		let finalBudgetArray = finalArray.filter((element) => {
