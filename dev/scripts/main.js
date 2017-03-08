@@ -72,7 +72,7 @@ giftApp.occasions = [
 		streeLevel: true
 	}];
 
-giftApp.getLcboProductReturn = () => {
+giftApp.getLcboProductReturn = (userInput) => {
 	giftApp.getAlcohol = $.ajax({
 	    url: 'http://proxy.hackeryou.com',
 	    dataType: 'json',
@@ -82,17 +82,18 @@ giftApp.getLcboProductReturn = () => {
 	        params: {
 	            key: giftApp.lcboKey,
 	            per_page: 100,
-	            page: 1
+	            page: 1,
+	            q: userInput
 	        },
 	        xmlToJSON: false
 	    }
 	});$.when(giftApp.getAlcohol).done(function(alcoholData){
 		var firstArrayReturn = alcoholData.result;
-		giftApp.getLcboProductReturnTwo(firstArrayReturn)
+		giftApp.getLcboProductReturnTwo(firstArrayReturn, userInput)
 	});
 }
 
-giftApp.getLcboProductReturnTwo = function(firstArrayReturn) {
+giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
 	giftApp.getAlcoholTwo = $.ajax({
 	    url: 'http://proxy.hackeryou.com',
 	    dataType: 'json',
@@ -102,15 +103,18 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn) {
 	        params: {
 	            key: giftApp.lcboKey,
 	            per_page: 100,
-	            page: 3
+	            page: 3,
+	            q: userInput
 	        },
 	        xmlToJSON: false
 	    }
 	});$.when(giftApp.getAlcoholTwo).done(function(alcoholDataTwo){
 		let secondArrayReturn = alcoholDataTwo.result;
-		let finalAlcoholArray = [...firstArrayReturn,...secondArrayReturn];
-
-		console.log(finalAlcoholArray)
+		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn];
+		let finalAlcoholArray = combinedAlcoholArray.filter(function(element){
+			return element.primary_category === userInput;
+		});
+		console.log(finalAlcoholArray);
 
 	})
 
@@ -180,16 +184,16 @@ giftApp.getUserChoice = () => {
 		// giftApp.occasionStressLevel = giftApp.userOccasion
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
+		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);
 	})
 } //end of getUserChoice()
 
 giftApp.getStressOfOccasion = (param) => {
 	giftApp.occasionStressLevel = param.stressLevel;
-	console.log(giftApp.occasionStressLevel);
+	// console.log(giftApp.occasionStressLevel);
 }
 
 giftApp.events = () => {
-	giftApp.getLcboProductReturn();
 	giftApp.getUserChoice();
 } //end of events()
 
