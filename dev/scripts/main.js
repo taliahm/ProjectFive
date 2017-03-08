@@ -36,6 +36,7 @@ giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.userBudget;
 giftApp.userOccasion;
 giftApp.AlcoholChoice;
+giftApp.stressLevel;
 giftApp.occasions = [
 	{ 
 		occasion: 'tuesday',
@@ -189,8 +190,10 @@ giftApp.getUserChoice = () => {
 } //end of getUserChoice()
 
 giftApp.getStressOfOccasion = (param) => {
-	giftApp.occasionStressLevel = param.stressLevel;
-	// console.log(giftApp.occasionStressLevel);
+	let filteredOccasion = giftApp.occasions.filter((item) => item.occasion === param);
+	let truthie = filteredOccasion.map((item) => item.stressLevel);
+	giftApp.stressLevel = truthie[0]
+	console.log(giftApp.stressLevel);
 }
 
 giftApp.events = () => {
