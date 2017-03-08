@@ -26,3 +26,12 @@
 
 
 //We will create object of occasions and add stress level as a property with either true or false
+
+//Name spacing
+const giftApp = {};
+
+const giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
+const giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
+const giftApp.lcboUrl = 'http://lcboapi.com/';
+
+ 
