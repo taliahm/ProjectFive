@@ -33,6 +33,9 @@ const giftApp = {};
 giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
 giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
 giftApp.lcboUrl = 'http://lcboapi.com/';
+giftApp.userBudget;
+giftApp.userOccasion;
+giftApp.AlcoholChoice;
 giftApp.occasions = [
 	{ 
 		occasion: 'tuesday',
@@ -154,13 +157,32 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn) {
 	
 // }
 
+//EVENTS
+giftApp.getUserChoice = () => {
+	$('#giftMe').on('click', function(e){
+		e.preventDefault();
+		console.log('clicked gift me button');
+		giftApp.userBudget = $('#budget').val();
+		giftApp.userOccasion = $('#occasion').val();
+		// giftApp.occasionStressLevel = giftApp.userOccasion
+		giftApp.userAlcoholChoice = $('#alcoholType').val();
+		giftApp.getStressOfOccasion(giftApp.userOccasion);
+	})
+} //end of getUserChoice()
+
+giftApp.getStressOfOccasion = (param) => {
+	giftApp.occasionStressLevel = param.stressLevel;
+	console.log(giftApp.occasionStressLevel);
+}
+
 giftApp.events = () => {
 	giftApp.getLcboProductReturn();
-}
+	giftApp.getUserChoice();
+} //end of events()
 
 giftApp.init = () => {
 	giftApp.events();
-} 
+} //end of init();
 
 $(function() {
    giftApp.init();
