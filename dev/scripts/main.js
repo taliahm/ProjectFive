@@ -189,6 +189,7 @@ giftApp.convertStores = (array) => {
 	})
 	// console.log(giftApp.arrayForGoogle);
 }
+	giftApp.convertStores(fakeArray);
 
 
 
@@ -245,7 +246,6 @@ if (navigator.geolocation) {
 		// const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
 		const userLatLng = userLat + ',' + userLong;
 		giftApp.runDisMatrix(userLatLng);
-		giftApp.convertStores(fakeArray);
 		console.log(userLatLng);
 
 	}, function() {
