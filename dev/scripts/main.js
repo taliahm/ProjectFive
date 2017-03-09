@@ -184,11 +184,15 @@ if (navigator.geolocation) {
 		infoWindow.setContent('Location found.');
 		giftApp.map.setCenter(pos);
 		giftApp.holdLocation = pos;
-		const userLat = giftApp.holdLocation.lat;
-		const userLong = giftApp.holdLocation.lng;
-		const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
+		const userLat = pos.lat;
+		const userLong =  pos.lng;
+		// const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
+		const userLatLng = userLat + ',' + userLong;
+		giftApp.runDisMatrix(userLatLng);
+		console.log(userLatLng);
 		
-		console.log(userLatLng;
+		
+		// console.log(pos);
 		// const originA = pos;
 		// console.log(originA);
 		// giftApp.runDisMatrix(originA);
@@ -227,6 +231,7 @@ giftApp.runDisMatrix = (param) => {
 service = new google.maps.DistanceMatrixService();
 service.getDistanceMatrix(
   {
+    // origins: [param],
     origins: [param],
     destinations: [destinationA, destinationB],
     travelMode: 'DRIVING',
@@ -238,6 +243,7 @@ service.getDistanceMatrix(
   }, callback);
 
 function callback(response, status) {
+	 console.log(origin1);
 	console.log(response)
   if (status == 'OK') {
     var origins = response.originAddresses;
@@ -248,8 +254,8 @@ console.log(destinations);
       var results = response.rows[i].elements;
       for (var j = 0; j < results.length; j++) {
         var element = results[j];
-        var distance = element.distance.text;
-        var duration = element.duration.text;
+        // var distance = element.distance.text;
+        // var duration = element.duration.text;
         var from = origins[i];
         var to = destinations[j];
       }
