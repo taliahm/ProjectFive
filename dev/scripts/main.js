@@ -190,15 +190,6 @@ if (navigator.geolocation) {
 		const userLatLng = userLat + ',' + userLong;
 		giftApp.runDisMatrix(userLatLng);
 		console.log(userLatLng);
-		
-		
-		// console.log(pos);
-		// const originA = pos;
-		// console.log(originA);
-		// giftApp.runDisMatrix(originA);
- // myLatLng = new google.maps.LatLng({lat: -34, lng: 151}); 
-
-
 
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
@@ -221,8 +212,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 // end geolocation script
 
 // detect user location and return it in latlng 
-var origin1 = new google.maps.LatLng(55.930385, -3.118425);
-// var origin1 = new google.maps.LatLng(giftApp.holdLocation[lat], giftApp.holdLocation[lng]);
+// var origin1 = new google.maps.LatLng(55.930385, -3.118425);
+
+//these variables are from google example
 var origin2 = 'Greenwich, England';
 var destinationA = 'Stockholm, Sweden';
 var destinationB = new google.maps.LatLng(50.087692, 14.421150);
