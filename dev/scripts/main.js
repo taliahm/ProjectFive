@@ -286,25 +286,41 @@ giftApp.getUserChoice = () => {
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
-		var finalBudgetArray = finalArray.filter((element) => {
+		const finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents < 2000;
 		})
+		giftApp.sortedArray(finalBudgetArray);
 		console.log('lowest of budget', finalBudgetArray);
 		
 	}
 	else if(giftApp.userBudget === 'medium') {
-		var finalBudgetArray = finalArray.filter((element) => {
+		const finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
 		})
+		giftApp.sortedArray(finalBudgetArray);
 		console.log('medium of budgets', finalBudgetArray);
 	} 
 	else if(giftApp.userBudget === 'high') {
-		var finalBudgetArray = finalArray.filter((element) => {
+		const finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 4001;
 		})
-		console.log('highest of budgets',  finalBudgetArray);
+		giftApp.sortedArray(finalBudgetArray);
+		console.log('highest of budgets', finalBudgetArray);
 	}
 }
+
+giftApp.sortedArray = (passedData) => {
+// console.log('passed data here', passedData);
+	giftApp.userOccasion(selectedOccasion)
+	var sortedByAbv = _.sortBy(passedData.'alcohol_content')
+
+	if (selectedOccasion.stressLevel === true ) {
+	const lowestAbv = Math.floor(sortedByAbv.length / 2);
+	} 
+	else {
+	const highestAbv = Math.ceil(sortedByAbv.length / 2);
+	}
+} 
 
 //THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
 giftApp.displayAlcohol = (array) => {
@@ -333,7 +349,7 @@ giftApp.getStressOfOccasion = (param) => {
 	let filteredOccasion = giftApp.occasions.filter((item) => item.occasion === param);
 	let truthie = filteredOccasion.map((item) => item.stressLevel);
 	giftApp.stressLevel = truthie[0]
-	console.log(giftApp.stressLevel);
+	console.log("this is the selected stress", giftApp.stressLevel);
 }
 
 giftApp.events = () => {
