@@ -30,12 +30,13 @@
 //Name spacing
 const giftApp = {};
 
-giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
+giftApp.lcboKey = 'MDo0NmY2MDY1MC1mZThmLTExZTYtOTE2OC1lNzNiZDhlNzg0NTg6QnNPeHBzcFdONGR1SXAzdG1vS3Q4WnhNR3BTY1pROGc4MGM3';
+// 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
 giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
 giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.userBudget;
 giftApp.userOccasion;
-giftApp.AlcoholChoice;
+giftApp.userAlcoholChoice;
 giftApp.stressLevel;
 giftApp.occasions = [
 	{ 
@@ -90,11 +91,32 @@ giftApp.getLcboProductReturn = (userInput) => {
 	    }
 	});$.when(giftApp.getAlcohol).done(function(alcoholData){
 		var firstArrayReturn = alcoholData.result;
-		giftApp.getLcboProductReturnTwo(firstArrayReturn, userInput)
+		giftApp.getLcboProductReturnThree(firstArrayReturn, userInput)
 	});
 }
 
-giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
+giftApp.getLcboProductReturnThree = (firstArrayReturn, userInput) => {
+	giftApp.getAlcohol = $.ajax({
+	    url: 'http://proxy.hackeryou.com',
+	    dataType: 'json',
+	    method:'GET',
+	    data: {
+	        reqUrl: 'http://lcboapi.com/products',
+	        params: {
+	            key: giftApp.lcboKey,
+	            per_page: 100,
+	            page: 5,
+	            q: userInput
+	        },
+	        xmlToJSON: false
+	    }
+	});$.when(giftApp.getAlcohol).done(function(alcoholData){
+		var thirdArrayReturn = alcoholData.result;
+		giftApp.getLcboProductReturnTwo(firstArrayReturn, thirdArrayReturn, userInput)
+	});
+}
+
+giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, userInput) {
 	giftApp.getAlcoholTwo = $.ajax({
 	    url: 'http://proxy.hackeryou.com',
 	    dataType: 'json',
@@ -111,14 +133,24 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
 	    }
 	});$.when(giftApp.getAlcoholTwo).done(function(alcoholDataTwo){
 		let secondArrayReturn = alcoholDataTwo.result;
-		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn];
-		let finalAlcoholArray = combinedAlcoholArray.filter(function(element){
-			return element.primary_category === userInput;
-		});
-		console.log(finalAlcoholArray);
-
+		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn,...thirdArrayReturn];
+		// console.log(combinedAlcoholArray);
+		giftApp.filterByPrimeCat(combinedAlcoholArray);
 	})
 
+}
+
+giftApp.filterByPrimeCat = (array) => {
+		console.log('the user choice value', giftApp.userAlcoholChoice);
+		let idofEl = `#${giftApp.userAlcoholChoice}`;
+		let filterParamSelector = $('#alcoholType').children(idofEl);
+		const filterParam = filterParamSelector.attr('data-filterParam');
+		console.log('filterParam', filterParam)
+		const arrayByName = array.filter(function(element){
+			return element.primary_category === filterParam;
+		})
+		// console.log('this should be an array', finalAlcoholArray);
+		giftApp.filterByBudget(arrayByName);
 }
 
 
@@ -202,6 +234,51 @@ giftApp.getUserChoice = () => {
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);
 	})
 } //end of getUserChoice()
+
+giftApp.filterByBudget = (finalArray) => {
+	if(giftApp.userBudget === 'low'){
+		var finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents < 2000;
+		})
+		console.log('lowest of budget', finalBudgetArray);
+		
+	}
+	else if(giftApp.userBudget === 'medium') {
+		var finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
+		})
+		console.log('medium of budgets', finalBudgetArray);
+	} 
+	else if(giftApp.userBudget === 'high') {
+		var finalBudgetArray = finalArray.filter((element) => {
+			return element.price_in_cents > 4001;
+		})
+		console.log('highest of budgets',  finalBudgetArray);
+	}
+}
+
+//THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
+giftApp.displayAlcohol = (array) => {
+	$('.results').empty();
+	var elemArray = array.forEach((item) =>{
+		let elemString = `
+		<input type="radio" name="chooseAlcohol" data-id="${item.id}" id="${item.id}">
+		<label for="${item.id}">
+			<div class="imageContain">
+				<img src="${item.image_url}" alt="${item.name}">
+			</div>
+			<div class="text">
+				<h2>${item.name}</h2>
+				<p>${item.origin}</p>
+				<p>${item.style}</p>
+				<p>${item.producer_name}</p>
+			</div>
+		</label>`
+		let allElems = $('<div class="resultItem">').append(elemString);
+		console.log(allElems);
+		$('.results').append(allElems);
+	})
+}
 
 giftApp.getStressOfOccasion = (param) => {
 	let filteredOccasion = giftApp.occasions.filter((item) => item.occasion === param);
