@@ -30,12 +30,13 @@
 //Name spacing
 const giftApp = {};
 
-giftApp.lcboKey = 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
+giftApp.lcboKey = 'MDo0NmY2MDY1MC1mZThmLTExZTYtOTE2OC1lNzNiZDhlNzg0NTg6QnNPeHBzcFdONGR1SXAzdG1vS3Q4WnhNR3BTY1pROGc4MGM3';
+// 'MDpkODE2NzI1ZS1mZGM4LTExZTYtODdlZi03MzlkMjFiYjEwYzg6TEw1Z0hoTjI2Vk1LNkZhZnVsV0FIM2JhbmFqazlSQ005ZXpO';
 giftApp.mapsKey = 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM';
 giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.userBudget;
 giftApp.userOccasion;
-giftApp.AlcoholChoice;
+giftApp.userAlcoholChoice;
 giftApp.stressLevel;
 giftApp.occasions = [
 	{ 
@@ -133,15 +134,24 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 	});$.when(giftApp.getAlcoholTwo).done(function(alcoholDataTwo){
 		let secondArrayReturn = alcoholDataTwo.result;
 		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn,...thirdArrayReturn];
-		let finalAlcoholArray = combinedAlcoholArray.filter(function(element){
-			return element.primary_category === userInput;
-		});
-		giftApp.filterByBudget(finalAlcoholArray);
+		// console.log(combinedAlcoholArray);
+		giftApp.filterByPrimeCat(combinedAlcoholArray);
 	})
 
 }
 
-
+giftApp.filterByPrimeCat = (array) => {
+		console.log('the user choice value', giftApp.userAlcoholChoice);
+		let idofEl = `#${giftApp.userAlcoholChoice}`;
+		let filterParamSelector = $('#alcoholType').children(idofEl);
+		const filterParam = filterParamSelector.attr('data-filterParam');
+		console.log('filterParam', filterParam)
+		const arrayByName = array.filter(function(element){
+			return element.primary_category === filterParam;
+		})
+		// console.log('this should be an array', finalAlcoholArray);
+		giftApp.filterByBudget(arrayByName);
+}
 
 
 
