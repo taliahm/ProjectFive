@@ -43,34 +43,44 @@ giftApp.occasions = [
 	{ 
 		occasion: 'tuesday',
 		stressLevel: false
-	},{
+	},
+	{
 		occasion: 'anniversary',
 		stressLevel: true
-	},{
+	},
+	{
 		occasion: 'surprise',
 		stressLevel: false
-	},{
+	},
+	{
 		occasion: 'meetingParents',
 		stressLevel: true
-	}, {
+	}, 
+	{
 		occasion: 'potluck',
 		stressLevel: false
-	}, {
+	}, 
+	{
 		occasion: 'dinnerBoss',
 		stressLevel: true
-	}, {
+	}, 
+	{
 		occasion: 'sorryGift',
 		stressLevel: true
-	}, {
+	}, 
+	{
 		occasion: 'netflixSpill',
 		stressLevel: false
-	}, {
+	}, 
+	{
 		occasion: 'gameNight',
 		stressLevel: false
-	}, {
+	}, 
+	{
 		occasion: 'holidayParty',
 		stressLevel: true
-	}, {
+	}, 
+	{
 		occasion: 'present',
 		streeLevel: true
 	}];
@@ -175,11 +185,9 @@ giftApp.convertStores = (array) => {
 // destinationArray = [ storeOne, storeTwo, Store Three ]
 
 giftApp.filterByPrimeCat = (array) => {
-		console.log('the user choice value', giftApp.userAlcoholChoice);
 		let idofEl = `#${giftApp.userAlcoholChoice}`;
 		let filterParamSelector = $('#alcoholType').children(idofEl);
 		const filterParam = filterParamSelector.attr('data-filterParam');
-		console.log('filterParam', filterParam)
 		const arrayByName = array.filter(function(element){
 			return element.primary_category === filterParam;
 		})
@@ -300,24 +308,24 @@ function callbackDisMatrix(response, status) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
-		console.log('clicked gift me button');
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
-		// giftApp.occasionStressLevel = giftApp.userOccasion
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
-		giftApp.getStressOfOccasion(giftApp.userOccasion);
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);
 		giftApp.getLcboStores(); //THESE SHOULDN"T BE HERE! Just for testing
+		giftApp.getStressOfOccasion(giftApp.userOccasion);
+
 	})
 } //end of getUserChoice()
+
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
 		const finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents < 2000;
 		})
-		// giftApp.sortedArray(finalBudgetArray);
-		console.log('lowest of budget', finalBudgetArray);
+		giftApp.sortedArray(finalBudgetArray);
+		// console.log('lowest of budget', finalBudgetArray);
 		
 	}
 	else if(giftApp.userBudget === 'medium') {
@@ -325,29 +333,40 @@ giftApp.filterByBudget = (finalArray) => {
 			return element.price_in_cents > 2001 && element.price_in_cents < 4000;
 		})
 		giftApp.sortedArray(finalBudgetArray);
-		console.log('medium of budgets', finalBudgetArray);
+		// console.log('medium of budgets', finalBudgetArray);
 	} 
 	else if(giftApp.userBudget === 'high') {
 		const finalBudgetArray = finalArray.filter((element) => {
 			return element.price_in_cents > 4001;
 		})
 		giftApp.sortedArray(finalBudgetArray);
-		console.log('highest of budgets', finalBudgetArray);
+		// console.log('highest of budgets', finalBudgetArray);
 	}
 }
 
-// giftApp.sortedArray = (passedData) => {
-// // console.log('passed data here', passedData);
-// 	giftApp.userOccasion(selectedOccasion);
-// 	// var sortedByAbv = _.sortBy(passedData.alcohol_content)
 
-// 	if (selectedOccasion.stressLevel === true ) {
-// 	const lowestAbv = Math.floor(sortedByAbv.length / 2);
-// 	} 
-// 	else {
-// 	const highestAbv = Math.ceil(sortedByAbv.length / 2);
-// 	}
-// } 
+giftApp.sortedArray = (passedData) => {
+	// console.log('passed occasion', giftApp.stressLevel); // users true or false
+
+	var sortedByAbv = _.sortBy(passedData, 'alcohol_content')
+	const arrayHalfLength = Math.floor(sortedByAbv.length / 2);
+	if (giftApp.stressLevel === false ) {
+		let halfArray = sortedByAbv.slice(0, arrayHalfLength);
+		giftApp.getFinalArray(halfArray);
+	} 
+	else {
+		let halfArray = sortedByAbv.slice(arrayHalfLength, sortedByAbv.length);
+		giftApp.getFinalArray(halfArray);
+		console.log('higher abv half', halfArray);
+	}
+} 
+
+
+giftApp.getFinalArray = (array) => {
+	let randomArray = _.shuffle(array);
+	let finalArray = randomArray.slice(0, 6);
+	giftApp.displayAlcohol(finalArray);
+}
 
 //THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
 giftApp.displayAlcohol = (array) => {
@@ -376,7 +395,6 @@ giftApp.getStressOfOccasion = (param) => {
 	let filteredOccasion = giftApp.occasions.filter((item) => item.occasion === param);
 	let truthie = filteredOccasion.map((item) => item.stressLevel);
 	giftApp.stressLevel = truthie[0]
-	console.log("this is the selected stress", giftApp.stressLevel);
 }
 
 giftApp.events = () => {
