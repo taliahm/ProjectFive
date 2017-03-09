@@ -122,46 +122,6 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, userInput) {
 }
 
 
-
-
-
-//Function to get user's location
-// giftApp.getUserLocation = () => {
-// 	// function initMap() {
-// 	        var map = new google.maps.Map(document.getElementById('map'), {
-// 	          center: {lat: -34.397, lng: 150.644},
-// 	          zoom: 6
-// 	        });
-// 	        var infoWindow = new google.maps.InfoWindow({map: map});
-// 	        // Try HTML5 geolocation.
-// 	             if (navigator.geolocation) {
-// 	               navigator.geolocation.getCurrentPosition(function(position) {
-// 	                 var pos = {
-// 	                   lat: position.coords.latitude,
-// 	                   lng: position.coords.longitude
-// 	                 };
-
-// 	                 infoWindow.setPosition(pos);
-// 	                 infoWindow.setContent('Location found.');
-// 	                 map.setCenter(pos);
-// 	               }, function() {
-// 	                 handleLocationError(true, infoWindow, map.getCenter());
-// 	               });
-// 	             } else {
-// 	               // Browser doesn't support Geolocation
-// 	               handleLocationError(false, infoWindow, map.getCenter());
-// 	             }
-// 	           }
-
-// 	           function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-// 	             infoWindow.setPosition(pos);
-// 	             infoWindow.setContent(browserHasGeolocation ?
-// 	                                   'Error: The Geolocation service failed.' :
-// 	                                   'Error: Your browser doesn\'t support geolocation.');
-// 	           }
-	
-// }
-
 // this map script creates and displays the map object, don't mess with it!
 
 giftApp.map;
@@ -170,43 +130,64 @@ giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
 		// scrollwheel: false,
-		zoom: 6
+		zoom: 8
 		});
 
-// geolocation script below
+// geolocation script below - this allows us to get user location
 
 const infoWindow = new google.maps.InfoWindow({
 	map: giftApp.map
 });
 
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
+// if autolocation is allowed
+if (navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition((position) => {
+	const pos = {
+		lat: position.coords.latitude,
+		lng: position.coords.longitude
+		};
 
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        giftApp.map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, infoWindow, giftApp.map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, giftApp.map.getCenter());
-    }
-  }
 
-  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
-  }
+		infoWindow.setPosition(pos);
+		infoWindow.setContent('Location found.');
+		giftApp.map.setCenter(pos);
+		// giftApp.holdLocation(pos);
+
+	}, function() {
+	handleLocationError(true, infoWindow, giftApp.map.getCenter());
+	});
+	} else {
+
+	// if browser doesn't support geolocation
+	handleLocationError(false, infoWindow, giftApp.map.getCenter());
+	}
+	// console.log("yay location", giftApp.keepUserLocation);
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	infoWindow.setPosition(pos);
+	infoWindow.setContent(browserHasGeolocation ?
+		'Error: The Geolocation service failed.' :
+		'Error: Your browser doesn\'t support geolocation.');
+}
 
 // end geolocation script
+
+// detect user location and return it in latlng 
+
+// giftApp.getUserDetectedLocation = (userLocation) => {
+// 	giftApp.getUserLocation = $.ajax({
+// 		url: 'https://www.googleapis.com/geolocation/v1/geolocate',
+// 		dataType: 'json',
+// 		method: 'POST',
+// 		data: {
+// 			key: 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM',
+
+// 		}
+// 	})
+// }
+
+// end detect user location
 
 //EVENTS
 giftApp.getUserChoice = () => {
