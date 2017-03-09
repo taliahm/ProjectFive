@@ -140,6 +140,62 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 
 }
 
+giftApp.getLcboStores = function(userChoice) {
+	giftApp.lcboStorebyId = $.ajax({
+		url: 'http://lcboapi.com/stores',
+		dataType: 'json',
+		method:'GET',
+		    data: {
+		        key: giftApp.lcboKey,
+		        // per_page: 100,
+		        // page: 3,
+		       product_id: userChoice
+		    },
+	});$.when(giftApp.lcboStorebyId).done(function(data){
+		const storeResults = data.result;	
+		giftApp.convertStores(storeResults);
+	})
+}
+
+const fakeArray = [
+	{name: 'Store 1',
+	 latitude: 43.4503, 
+	 longitude: -80.4832
+
+	}, {
+		name: 'Store 3', 
+		latitude: 43.47, 
+		longitude: -80.483
+	}, {
+		name: 'Store 4',
+		latitude: 43.40,
+		longitude: -80.49
+	}, {
+		name: 'Store 2',
+		latitude: 43.4508,
+		longitude: -80.4828
+	}, {name: 'Store 5',
+		latitude:43.4501,
+		longitude: -80.4836}
+]
+
+giftApp.convertStores = (array) => {
+	// console.log(array);
+	// const arrayForGoogle = array.reduce(function(arr, item){
+	// 	return arr[item]
+	// }, [])
+	giftApp.arrayForGoogle = array.map(function(item){
+		return `${item.latitude}, ${item.longitude}`
+	})
+	// console.log(giftApp.arrayForGoogle);
+}
+
+
+
+// arrayForGoogle = ['lat,long',]
+// var storeOne = '43.4503, -80.4832';
+// destinationArray = [ storeOne, storeTwo, Store Three ]
+
 giftApp.filterByPrimeCat = (array) => {
 		console.log('the user choice value', giftApp.userAlcoholChoice);
 		let idofEl = `#${giftApp.userAlcoholChoice}`;
@@ -189,6 +245,7 @@ if (navigator.geolocation) {
 		// const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
 		const userLatLng = userLat + ',' + userLong;
 		giftApp.runDisMatrix(userLatLng);
+		giftApp.convertStores(fakeArray);
 		console.log(userLatLng);
 
 	}, function() {
@@ -211,21 +268,22 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 // end geolocation script
 
-// detect user location and return it in latlng 
-// var origin1 = new google.maps.LatLng(55.930385, -3.118425);
 
 //these variables are from google example
 var origin2 = 'Greenwich, England';
-var destinationA = 'Stockholm, Sweden';
-var destinationB = new google.maps.LatLng(50.087692, 14.421150);
+// var destinationA = 'Kitchener, Canada';
+var destinationA = '43.4503, -80.4832';
+// var destinationB = new google.maps.LatLng(50.087692, 14.421150);
+var destinationB = '44.2312, -76.4860';
 
 giftApp.runDisMatrix = (param) => {
 service = new google.maps.DistanceMatrixService();
+console.log(destinationB);
 service.getDistanceMatrix(
   {
     // origins: [param],
     origins: [param],
-    destinations: [destinationA, destinationB],
+    destinations: giftApp.arrayForGoogle,
     travelMode: 'DRIVING',
     // transitOptions: TransitOptions,
     // drivingOptions: DrivingOptions,
@@ -235,7 +293,7 @@ service.getDistanceMatrix(
   }, callback);
 
 function callback(response, status) {
-	 console.log(origin1);
+	 console.log(param);
 	console.log(response)
   if (status == 'OK') {
     var origins = response.originAddresses;
