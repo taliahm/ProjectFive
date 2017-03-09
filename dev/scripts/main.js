@@ -244,7 +244,7 @@ if (navigator.geolocation) {
 		const userLat = pos.lat;
 		const userLong =  pos.lng;
 		// const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
-		const userLatLng = userLat + ',' + userLong;
+		const userLatLng = `${userLat} , ${userLong}`;
 		giftApp.runDisMatrix(userLatLng);
 		console.log(userLatLng);
 
@@ -257,7 +257,7 @@ if (navigator.geolocation) {
 	handleLocationError(false, infoWindow, giftApp.map.getCenter());
 	}
 	// console.log("yay location", giftApp.keepUserLocation);
-}
+} // end giftApp.initMap
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
@@ -271,7 +271,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //these variables are from google example
 var origin2 = 'Greenwich, England';
-// var destinationA = 'Kitchener, Canada';
 var destinationA = '43.4503, -80.4832';
 // var destinationB = new google.maps.LatLng(50.087692, 14.421150);
 var destinationB = '44.2312, -76.4860';
@@ -296,8 +295,8 @@ function callback(response, status) {
 	 console.log(param);
 	console.log(response)
   if (status == 'OK') {
-    var origins = response.originAddresses;
-    var destinations = response.destinationAddresses;
+    const origins = response.originAddresses;
+    const destinations = response.destinationAddresses;
 console.log(origins);
 console.log(destinations);
     for (var i = 0; i < origins.length; i++) {
