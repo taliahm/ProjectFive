@@ -183,7 +183,13 @@ if (navigator.geolocation) {
 		infoWindow.setPosition(pos);
 		infoWindow.setContent('Location found.');
 		giftApp.map.setCenter(pos);
-		// giftApp.holdLocation(pos);
+		giftApp.holdLocation = pos;
+		const userLat = pos.lat;
+		const userLong =  pos.lng;
+		// const userLatLng = new google.maps.LatLng({lat: userLat, lng: userLong});
+		const userLatLng = userLat + ',' + userLong;
+		giftApp.runDisMatrix(userLatLng);
+		console.log(userLatLng);
 
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
@@ -206,6 +212,49 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 // end geolocation script
 
 // detect user location and return it in latlng 
+// var origin1 = new google.maps.LatLng(55.930385, -3.118425);
+
+//these variables are from google example
+var origin2 = 'Greenwich, England';
+var destinationA = 'Stockholm, Sweden';
+var destinationB = new google.maps.LatLng(50.087692, 14.421150);
+
+giftApp.runDisMatrix = (param) => {
+service = new google.maps.DistanceMatrixService();
+service.getDistanceMatrix(
+  {
+    // origins: [param],
+    origins: [param],
+    destinations: [destinationA, destinationB],
+    travelMode: 'DRIVING',
+    // transitOptions: TransitOptions,
+    // drivingOptions: DrivingOptions,
+    // unitSystem: UnitSystem,
+    // avoidHighways: Boolean,
+    // avoidTolls: Boolean,
+  }, callback);
+
+function callback(response, status) {
+	 console.log(origin1);
+	console.log(response)
+  if (status == 'OK') {
+    var origins = response.originAddresses;
+    var destinations = response.destinationAddresses;
+console.log(origins);
+console.log(destinations);
+    for (var i = 0; i < origins.length; i++) {
+      var results = response.rows[i].elements;
+      for (var j = 0; j < results.length; j++) {
+        var element = results[j];
+        // var distance = element.distance.text;
+        // var duration = element.duration.text;
+        var from = origins[i];
+        var to = destinations[j];
+      }
+    }
+  }
+}
+};
 
 // giftApp.getUserDetectedLocation = (userLocation) => {
 // 	giftApp.getUserLocation = $.ajax({
