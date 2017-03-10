@@ -152,7 +152,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 }
 
 //Call to LCBO Api to get Stores by Product ID
-giftApp.getLcboStores = function() {
+giftApp.getLcboStores = function(id) {
 	giftApp.lcboStorebyId = $.ajax({
 		url: 'http://proxy.hackeryou.com',
 		method: 'GET',
@@ -161,7 +161,7 @@ giftApp.getLcboStores = function() {
 			reqUrl: 'http://lcboapi.com/stores',
 			params: {
 				key: giftApp.lcboKey,
-				product_id: 300681
+				product_id: id
 			},
 			xmlToJSON: false
 		}
@@ -318,6 +318,16 @@ giftApp.getUserChoice = () => {
 	})
 } //end of getUserChoice()
 
+giftApp.confirmUserChoice = () => {
+	$('#confirm').on('click', function(e){
+		e.preventDefault();
+		console.log('confirm clicked');
+		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
+		console.log(idOfChoice);
+		giftApp.getLcboStores(idOfChoice);
+	})
+}
+
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
@@ -400,6 +410,7 @@ giftApp.getStressOfOccasion = (param) => {
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
+	giftApp.confirmUserChoice();
 } //end of events()
 
 giftApp.init = () => {
