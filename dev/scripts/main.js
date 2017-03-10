@@ -37,6 +37,7 @@ giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.userBudget;
 giftApp.userOccasion;
 giftApp.userAlcoholChoice;
+giftApp.userLatLng; 
 giftApp.stressLevel;
 giftApp.arrayForGoogle;
 giftApp.occasions = [
@@ -100,7 +101,8 @@ giftApp.getLcboProductReturn = (userInput) => {
 	        },
 	        xmlToJSON: false
 	    }
-	});$.when(giftApp.getAlcohol).done(function(alcoholData){
+	});
+	$.when(giftApp.getAlcohol).done(function(alcoholData){
 		var firstArrayReturn = alcoholData.result;
 		giftApp.getLcboProductReturnThree(firstArrayReturn, userInput)
 	});
@@ -169,7 +171,7 @@ giftApp.getLcboStores = function(id) {
 		const lcboStores = data.result;
 		giftApp.convertStores(lcboStores);
 	})
-}
+};
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
@@ -177,7 +179,8 @@ giftApp.convertStores = (array) => {
 		return `${item.latitude}, ${item.longitude}`
 	})
 	giftApp.arrayForGoogle = storeLngLat;
-	console.log('distance array for google', giftApp.arrayForGoogle);
+	giftApp.runDisMatrix(giftApp.userLatLng);
+	// console.log('distance array for google', giftApp.arrayForGoogle);
 }
 
 // arrayForGoogle = ['lat,long',]
@@ -206,6 +209,7 @@ giftApp.initMap = () => {
 		// scrollwheel: false,
 		zoom: 8
 		});
+	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
 
@@ -228,9 +232,8 @@ if (navigator.geolocation) {
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
 		const userLong =  pos.lng;
-		const userLatLng = `${userLat} , ${userLong}`;
-		giftApp.runDisMatrix(userLatLng);
-		console.log(userLatLng);
+		giftApp.userLatLng = `${userLat} , ${userLong}`;
+		// console.log(userLatLng);
 
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
@@ -243,6 +246,7 @@ if (navigator.geolocation) {
 	// console.log("yay location", giftApp.keepUserLocation);
 } // end giftApp.initMap
 
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
 	infoWindow.setContent(browserHasGeolocation ?
@@ -254,8 +258,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //using Google Maps Distance Matrix to compare distances of LCBO stores to user location
 giftApp.runDisMatrix = (param) => {
-	service = new google.maps.DistanceMatrixService();
-	service.getDistanceMatrix(
+	giftApp.distanceMatrix.getDistanceMatrix(
   		{
     // origins: [param],
     		origins: [param],
@@ -269,8 +272,8 @@ giftApp.runDisMatrix = (param) => {
   	}, callbackDisMatrix);
 
 function callbackDisMatrix(response, status) {
-	 console.log(param);
-	console.log(response)
+	 console.log('disMatrix', param);
+	console.log('distance matrix entire response', response)
   if (status == 'OK') {
     const origins = response.originAddresses;
     const destinations = response.destinationAddresses;
