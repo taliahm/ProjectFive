@@ -88,7 +88,7 @@ h1 {
 
 
 .mapContainer {
-	height: 200px;
+	height: 500px;
 	// display: -webkit-box;
 	// display: -ms-flexbox;
 	// display: flex;
@@ -96,6 +96,17 @@ h1 {
 
 #map {
 	height: 100%;
+}
+
+//Styling for info windows on google map
+
+#infoWindow {
+	h6 {
+		margin:0;
+	}
+	p {
+		margin:0;
+	}
 }
 
 //Just making result images smaller for now
