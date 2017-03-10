@@ -10,7 +10,7 @@
 <body>
 	<section>
 		<h1>What Should I Bring?</h1>
-		<form class="userInput">
+		<form class="userInput"> <!-- This gets hidden and shown on click -->
 			<p>I am looking for</p>
 			<select name="alcoholType" id="alcoholType">
 				<option data-filterParam="Beer" value="Beer" id="Beer">Beer&amp;Cider</option>
@@ -43,8 +43,13 @@
 			<input type="submit" value="Gift Me!" id="giftMe">
 		</form>
 	</section>
-	<section class="results">
-		
+	<section> 
+		<form action="" class="results"> <!-- this will be hidden and show -->
+			<div class="resultsShow">
+				<!-- Results go here using jquery -->
+			</div>
+			<input type="submit" value="Confirm Selection" id="confirm">
+		</form>
 	</section>
 	<section class="mapContainer">
 		<div id="map">
