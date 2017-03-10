@@ -1333,4 +1333,5 @@ giftApp.init = () => {
 
 $(function() {
    giftApp.init();
+   Select.init();
 });

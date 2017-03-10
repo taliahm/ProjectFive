@@ -1,5 +1,6 @@
 @import 'partials/setup';
 @import 'partials/variables';
+@import 'partials/mixins';
 
 html {
 	font-size: 62.5%;
@@ -20,6 +21,11 @@ header {
 	align-items: center;
 }
 
+h1 {
+	@include headingFont;
+	text-align: center;
+}
+
 .header__placemat {
 	width: 80%;
 	height: 80vh;
@@ -27,12 +33,40 @@ header {
 	margin: 0 auto;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .selectForm__wrapper {
 	// constrains the dropdown menu form
 	// width: 80%;
 }
+
+.userInput {
+	display: flex;
+}
+
+.dropdown {
+	border: none;
+	border-bottom: 1px solid white;
+	padding: 10px;
+	margin-top: 10px;
+	margin: 20px;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+	width: 150px;
+	font-family: $fontSecondary;
+	color: $colorDk;
+}
+
+.button {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+	border: 2px solid red;
+	padding: 10px;
+	font-family: $fontSecondary;
+	color: $colorDk;
+}
+
 
 .mapContainer {
 	height: 200px;
