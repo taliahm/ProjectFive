@@ -37,6 +37,7 @@ giftApp.lcboUrl = 'http://lcboapi.com/';
 giftApp.userBudget;
 giftApp.userOccasion;
 giftApp.userAlcoholChoice;
+giftApp.userLatLng; 
 giftApp.stressLevel;
 giftApp.arrayForGoogle;
 giftApp.occasions = [
@@ -100,7 +101,8 @@ giftApp.getLcboProductReturn = (userInput) => {
 	        },
 	        xmlToJSON: false
 	    }
-	});$.when(giftApp.getAlcohol).done(function(alcoholData){
+	});
+	$.when(giftApp.getAlcohol).done(function(alcoholData){
 		var firstArrayReturn = alcoholData.result;
 		giftApp.getLcboProductReturnThree(firstArrayReturn, userInput)
 	});
@@ -152,7 +154,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 }
 
 //Call to LCBO Api to get Stores by Product ID
-giftApp.getLcboStores = function() {
+giftApp.getLcboStores = function(id) {
 	giftApp.lcboStorebyId = $.ajax({
 		url: 'http://proxy.hackeryou.com',
 		method: 'GET',
@@ -161,7 +163,7 @@ giftApp.getLcboStores = function() {
 			reqUrl: 'http://lcboapi.com/stores',
 			params: {
 				key: giftApp.lcboKey,
-				product_id: 300681
+				product_id: id
 			},
 			xmlToJSON: false
 		}
@@ -169,7 +171,7 @@ giftApp.getLcboStores = function() {
 		const lcboStores = data.result;
 		giftApp.convertStores(lcboStores);
 	})
-}
+};
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
@@ -177,7 +179,10 @@ giftApp.convertStores = (array) => {
 		return `${item.latitude}, ${item.longitude}`
 	})
 	giftApp.arrayForGoogle = storeLngLat;
-	console.log('distance array for google', giftApp.arrayForGoogle);
+	console.log(giftApp.arrayForGoogle);
+	// giftApp.runDisMatrix(giftApp.userLatLng);
+	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
+	// console.log('distance array for google', giftApp.arrayForGoogle);
 }
 
 // arrayForGoogle = ['lat,long',]
@@ -203,9 +208,10 @@ giftApp.map;
 giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
-		// scrollwheel: false,
+		scrollwheel: false,
 		zoom: 8
 		});
+	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
 
@@ -228,9 +234,8 @@ if (navigator.geolocation) {
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
 		const userLong =  pos.lng;
-		const userLatLng = `${userLat} , ${userLong}`;
-		giftApp.runDisMatrix(userLatLng);
-		console.log(userLatLng);
+		giftApp.userLatLng = `${userLat} , ${userLong}`;
+		// console.log(userLatLng);
 
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
@@ -243,6 +248,19 @@ if (navigator.geolocation) {
 	// console.log("yay location", giftApp.keepUserLocation);
 } // end giftApp.initMap
 
+giftApp.initMapLCBO = () => {
+	const infoWindowLCBO = new google.maps.InfoWindow({
+		map: giftApp.map
+	});
+	var myLatLng = {lat: -25.363, lng: 131.044};
+	var marker = new google.maps.Marker({
+	        position: myLatLng,
+	        map: giftApp.map,
+	        title: 'Hello World!'
+	      });
+}
+
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
 	infoWindow.setContent(browserHasGeolocation ?
@@ -254,8 +272,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //using Google Maps Distance Matrix to compare distances of LCBO stores to user location
 giftApp.runDisMatrix = (param) => {
-	service = new google.maps.DistanceMatrixService();
-	service.getDistanceMatrix(
+	giftApp.distanceMatrix.getDistanceMatrix(
   		{
     // origins: [param],
     		origins: [param],
@@ -269,8 +286,8 @@ giftApp.runDisMatrix = (param) => {
   	}, callbackDisMatrix);
 
 function callbackDisMatrix(response, status) {
-	 console.log(param);
-	console.log(response)
+	 console.log('disMatrix', param);
+	console.log('distance matrix entire response', response)
   if (status == 'OK') {
     const origins = response.originAddresses;
     const destinations = response.destinationAddresses;
@@ -317,6 +334,16 @@ giftApp.getUserChoice = () => {
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
 	})
 } //end of getUserChoice()
+
+giftApp.confirmUserChoice = () => {
+	$('#confirm').on('click', function(e){
+		e.preventDefault();
+		console.log('confirm clicked');
+		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
+		console.log(idOfChoice);
+		giftApp.getLcboStores(idOfChoice);
+	})
+}
 
 
 giftApp.filterByBudget = (finalArray) => {
@@ -400,6 +427,7 @@ giftApp.getStressOfOccasion = (param) => {
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
+	giftApp.confirmUserChoice();
 } //end of events()
 
 giftApp.init = () => {
