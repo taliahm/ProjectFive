@@ -31,7 +31,7 @@ gulp.task('browserRefresh', () => {
 
 gulp.task('watch', () => {
 	gulp.watch('./dev/scripts/*.js', ['javascript'])
-	gulp.watch('dev/styles/*.scss', ['styles'])
+	gulp.watch('./dev/styles/**/*.scss', ['styles'])
 	gulp.watch('./*.html', reload);
 });
 

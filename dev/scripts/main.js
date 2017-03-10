@@ -1283,7 +1283,7 @@ giftApp.displayAlcohol = (array) => {
 	var elemArray = array.forEach((item) =>{
 		let elemString = `
 		<input type="radio" name="chooseAlcohol" data-id="${item.id}" id="${item.id}">
-		<label for="${item.id}">
+		<label class="resultsLabel" for="${item.id}">
 			<div class="imageContain">
 				<img src="${item.image_url}" alt="${item.name}">
 			</div>

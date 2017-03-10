@@ -14,3 +14,23 @@
 form.results {
 	display: none;
 }
+
+.resultsShow {
+	display: flex;
+	flex-wrap: wrap;
+	width: 80%;
+	margin: 0 auto;
+	justify-content: center;
+}
+
+.resultItem {
+	display: flex;
+	width: 33.3%;
+}
+
+.resultsLabel {
+	display: flex:
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
