@@ -476,13 +476,40 @@ giftApp.getLcboStores = function(id) {
 			reqUrl: 'http://lcboapi.com/stores',
 			params: {
 				key: giftApp.lcboKey,
-				product_id: id
+				product_id: id,
+				page: 1,
+				per_page: 50
 			},
 			xmlToJSON: false
 		}
-	});$.when(giftApp.lcboStorebyId).done(function(data){
-		const lcboStores = data.result;
-		giftApp.convertStores(lcboStores); //commented out if API not working
+	});$.when(giftApp.lcboStorebyId).done(function(dataOne){
+		const lcboStores = dataOne.result;
+		// console.log('first pull', lcboStores);
+		giftApp.getLcboStoresTwo(id, lcboStores);
+	})
+};
+
+giftApp.getLcboStoresTwo = function(id, firstResult) {
+	giftApp.lcboStorebyIdTwo = $.ajax({
+		url: 'http://proxy.hackeryou.com',
+		method: 'GET',
+		dataType: 'json',
+		data: {
+			reqUrl: 'http://lcboapi.com/stores',
+			params: {
+				key: giftApp.lcboKey,
+				product_id: id,
+				page: 2,
+				per_page: 50
+			},
+			xmlToJSON: false
+		}
+	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
+		const lcboStoresTwo = dataTwo.result;
+		console.log('second pull', lcboStoresTwo);
+		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
+		console.log('together', lcboStoresTogether);
+		giftApp.convertStores(lcboStoresTogether); //commented out if API not working
 	})
 };
 
@@ -984,30 +1011,17 @@ giftApp.getLcboStores = function(id) {
     }
     ]
 
-    var beaches = [
-           ['Bondi Beach', -33.890542, 151.274856, 4],
-           ['Coogee Beach', -33.923036, 151.259052, 5],
-           ['Cronulla Beach', -34.028249, 151.157507, 3],
-           ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-           ['Maroubra Beach', -33.950198, 151.259302, 1]
-         ];
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
 	console.log('stores unfiltered', array)
 	const storeLngLat = array.map(function(item){
-		return `${item.latitude}, ${item.longitude}`
-	})
+	return [item.name, item.latitude, item.longitude, 0]
+});
 	giftApp.arrayForGoogle = storeLngLat;
-	console.log(giftApp.arrayForGoogle);
-	// giftApp.runDisMatrix(giftApp.userLatLng);
+	//pass array to google maps
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
-	// console.log('distance array for google', giftApp.arrayForGoogle);
 }
-
-// arrayForGoogle = ['lat,long',]
-// var storeOne = '43.4503, -80.4832';
-// destinationArray = [ storeOne, storeTwo, Store Three ]
 
 giftApp.filterByPrimeCat = (array) => {
 		let idofEl = `#${giftApp.userAlcoholChoice}`;
@@ -1084,14 +1098,6 @@ giftApp.initMapLCBO = (param) => {
 	console.log('second Map is UP')
 	giftApp.setMarkers(giftApp.map);
 }
-//Made up array from google maps, we need to format LCBO data like this!
-var beaches = [
-       ['Bondi Beach', -33.890542, 151.274856, 4],
-       ['Coogee Beach', -33.923036, 151.259052, 5],
-       ['Cronulla Beach', -34.028249, 151.157507, 3],
-       ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-       ['Maroubra Beach', -33.950198, 151.259302, 1]
-     ];
      //this is the content for the popup window, again, made up, from google maps example
      var contentString = `<div id="content"> A POP UP</div>`;
      //this is where we set the infoWindow to equal the made up contentString above, from Google maps example
@@ -1100,7 +1106,7 @@ var beaches = [
             });
 
 giftApp.setMarkers = function(map) {
-	beaches.forEach(function(item){
+	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
 			map: giftApp.map, 
