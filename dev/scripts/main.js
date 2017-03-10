@@ -248,29 +248,47 @@ if (navigator.geolocation) {
 	// console.log("yay location", giftApp.keepUserLocation);
 } // end giftApp.initMap
 
-giftApp.initMapLCBO = () => {
-	const infoWindowLCBO = new google.maps.InfoWindow({
-		map: giftApp.map
-	});
-	var myLatLng = {lat: -25.363, lng: 131.044};
-	var marker = new google.maps.Marker({
-	        position: myLatLng,
-	        map: giftApp.map,
-	        title: 'Hello World!'
-	      });
-}
-
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
 	infoWindow.setContent(browserHasGeolocation ?
 		'Error: The Geolocation service failed.' :
 		'Error: Your browser doesn\'t support geolocation.');
+}// end geolocation script
+
+//Adds "layer" over top of existing map to display LCBO stores
+giftApp.initMapLCBO = (param) => {
+	const infoWindowLCBO = new google.maps.InfoWindow({
+		map: giftApp.map
+	});
+	console.log('second Map is UP')
+	giftApp.setMarkers(giftApp.map);
+}
+//Made up array from google maps, we need to format LCBO data like this!
+var beaches = [
+       ['Bondi Beach', -33.890542, 151.274856, 4],
+       ['Coogee Beach', -33.923036, 151.259052, 5],
+       ['Cronulla Beach', -34.028249, 151.157507, 3],
+       ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+       ['Maroubra Beach', -33.950198, 151.259302, 1]
+     ];
+
+giftApp.setMarkers = function(map) {
+	beaches.forEach(function(item){
+		var marker = new google.maps.Marker({
+			position: {lat: item[1], lng: item[2]},
+			map: giftApp.map, 
+			title: item[0],
+			zIndex: item[3],
+			 // icon: image, customizable property we could include  
+	       // shape: shape, customizable property we could include
+		})
+	})
 }
 
-// end geolocation script
 
 //using Google Maps Distance Matrix to compare distances of LCBO stores to user location
+//CURRENTLY NOT BEING CALLED, sitting dormant
 giftApp.runDisMatrix = (param) => {
 	giftApp.distanceMatrix.getDistanceMatrix(
   		{
