@@ -425,6 +425,19 @@ giftApp.getStressOfOccasion = (param) => {
 	giftApp.stressLevel = truthie[0]
 }
 
+giftApp.smoothScroll = () => {
+	$('a[href^="#"]').on('click', function (e) {
+		e.preventDefault();
+
+		var targetLink = this.hash;
+		var $targetLink = $(targetLink);
+
+		$('html, body').stop().animate({
+			'scrollTop': $targetLink.offset().top
+		}, 900, 'swing');
+	});
+};
+
 giftApp.events = () => {
 	giftApp.getUserChoice();
 	giftApp.confirmUserChoice();
