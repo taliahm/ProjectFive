@@ -1075,15 +1075,34 @@ if (navigator.geolocation) {
 
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
+		// If users denies to auto locate
+
 	});
 	} else {
-
 	// if browser doesn't support geolocation
 	handleLocationError(false, infoWindow, giftApp.map.getCenter());
 	}
-	// console.log("yay location", giftApp.keepUserLocation);
 } // end giftApp.initMap
 
+giftApp.userLocationManual = () => {
+	$('#usersAddressSubmit').on('click', function(e){
+		e.preventDefault();
+		giftApp.usersInputAddress = $('#usersAddress').val();
+		console.log(giftApp.usersInputAddress);
+	})
+}
+
+giftApp.initMapLCBO = () => {
+	const infoWindowLCBO = new google.maps.InfoWindow({
+		map: giftApp.map
+	});
+	var myLatLng = {lat: -25.363, lng: 131.044};
+	var marker = new google.maps.Marker({
+	        position: myLatLng,
+	        map: giftApp.map,
+	        title: 'Hello World!'
+	      });
+}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
@@ -1307,6 +1326,7 @@ giftApp.events = () => {
 } //end of events()
 
 giftApp.init = () => {
+	giftApp.userLocationManual();
 	giftApp.events();
 	giftApp.initMap();
 } //end of init();
