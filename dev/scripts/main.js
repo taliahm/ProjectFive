@@ -272,6 +272,12 @@ var beaches = [
        ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
        ['Maroubra Beach', -33.950198, 151.259302, 1]
      ];
+     //this is the content for the popup window, again, made up, from google maps example
+     var contentString = `<div id="content"> A POP UP</div>`;
+     //this is where we set the infoWindow to equal the made up contentString above, from Google maps example
+     var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
 
 giftApp.setMarkers = function(map) {
 	beaches.forEach(function(item){
@@ -283,9 +289,11 @@ giftApp.setMarkers = function(map) {
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
+		marker.addListener('click', function(){
+				infowindow.open(map, marker);
+			})
 	})
 }
-
 
 //using Google Maps Distance Matrix to compare distances of LCBO stores to user location
 //CURRENTLY NOT BEING CALLED, sitting dormant
