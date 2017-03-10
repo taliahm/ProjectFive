@@ -1015,6 +1015,89 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 	})
 };
 
+
+
+
+
+
+
+
+
+
+// giftApp.googlePlaces = function(searchString) {
+//    const response = $.ajax({
+//        url: 'https://proxy.hackeryou.com',
+//        dataType: 'json',
+//        method:'GET',
+//        data: {
+//            reqUrl: 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+//            params: {
+//                key: giftApp.mapsKey,
+//                input: searchString,
+//                types: 'geocode',
+//                language: 'en',
+//                components: 'country:us|country:ca',
+//            },
+//            xmlToJSON: false
+//        }
+//    });
+//    $.when(response)
+//    .done(function(responseInfo) {
+//        giftApp.displayAutoCompleteResults(responseInfo.predictions);
+//    })
+//    .fail(function(error) {
+//        console.error('ERROR: ', error);
+//    });
+// };
+
+
+
+// giftApp.searchField = $('#usersAddress');
+// giftApp.userSearchInputResult;
+
+
+
+// giftApp.displayAutoCompleteResults = (results) => {
+
+//    const autocompleteItemClass = 'autocompleteItem';
+//    const autocompleteList = [];
+   
+//    if(results.length > 0) {
+//        results.forEach(function(result) {
+//            autocompleteList.push({ label: result.description, value: result.place_id });
+//        });
+
+//        giftApp.searchField.autocomplete({
+//            minLength:3,
+//            source: autocompleteList,
+//            autoFocus:true,
+//            select: function(event, ui) {
+//                event.preventDefault();
+//                $(this).val(ui.item.label);
+//                giftApp.userSearchInputResult = ui.item.value;
+//                console.log(giftApp.userSearchInputResult);
+//            },
+//            messages: {
+//                noResults: '',
+//                results: function() {}
+//            }
+//        });
+//    }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
 	console.log('stores unfiltered', array)
@@ -1094,7 +1177,6 @@ giftApp.userLocationManual = () => {
 			</form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-
 	$('#usersAddressSubmit').on('click', function(e){
 		e.preventDefault();
 		giftApp.usersInputAddress = $('#usersAddress').val();
