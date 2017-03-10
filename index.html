@@ -15,14 +15,14 @@
 				<h1>What Should I Bring?</h1>
 				<form class="userInput"> <!-- This gets hidden and shown on click -->
 					<p>I am looking for</p>
-					<select name="alcoholType" id="alcoholType">
+					<select class="dropdown" name="alcoholType" id="alcoholType">
 						<option data-filterParam="Beer" value="Beer" id="Beer">Beer&amp;Cider</option>
 						<option data-filterParam="Wine" value="Wine" id="Wine">Wine</option>
 						<option data-filterParam="Spirits" value="Spirits" id="Spirits">Spirits</option>
 						<option data-filterParam="Ready-to-Drink/Coolers" value="coolers" id="coolers">Coolers</option>
 					</select>
 					<p>for a</p>
-					<select name="occasion" id="occasion">
+					<select class="dropdown" name="occasion" id="occasion">
 					<!-- value corresponds to name of objects in js file -->
 						<option value="tuesday">Tuesday</option>
 						<option value="anniversary">Anniversary</option>
@@ -37,13 +37,13 @@
 						<option value="present">Hostess present</option>
 					</select>
 					<p>I have</p>
-					<select name="budget" id="budget">
+					<select class="dropdown" name="budget" id="budget">
 						<option value="low">$0-$40</option>
 						<option value="medium">$40-$70</option>
 						<option value="high">$70 and above</option>
 					</select>
 					<p>to spend.</p>
-					<input type="submit" value="Gift Me!" id="giftMe">
+					<input class="button" type="submit" value="Gift Me!" id="giftMe">
 				</form>
 			</div><!-- end .selectForm__wrapper -->
 		</section><!-- end .header__placemat -->
