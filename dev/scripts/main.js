@@ -308,13 +308,13 @@ function callbackDisMatrix(response, status) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
+		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);
-		giftApp.getLcboStores(); //THESE SHOULDN"T BE HERE! Just for testing
+		// giftApp.getLcboStores(); //THESE SHOULDN"T BE HERE! Just for testing
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
-
 	})
 } //end of getUserChoice()
 
@@ -370,7 +370,8 @@ giftApp.getFinalArray = (array) => {
 
 //THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
 giftApp.displayAlcohol = (array) => {
-	$('.results').empty();
+	$('.results').show();
+	$('.resultsShow').empty();
 	var elemArray = array.forEach((item) =>{
 		let elemString = `
 		<input type="radio" name="chooseAlcohol" data-id="${item.id}" id="${item.id}">
@@ -387,7 +388,7 @@ giftApp.displayAlcohol = (array) => {
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
 		console.log(allElems);
-		$('.results').append(allElems);
+		$('.resultsShow').append(allElems);
 	})
 }
 
