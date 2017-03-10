@@ -1077,6 +1077,7 @@ if (navigator.geolocation) {
 	}, function() {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
 		// If users denies to auto locate
+		giftApp.userLocationManual();
 
 	});
 	} else {
@@ -1086,10 +1087,19 @@ if (navigator.geolocation) {
 } // end giftApp.initMap
 
 giftApp.userLocationManual = () => {
+	let manualLocationEl = 
+			`<form class="addressInput">
+				<input type="text" placeholder="Please type..." id="usersAddress">
+				<input type="submit" id="usersAddressSubmit">
+			</form>`
+	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
+	$('.alcoholResults').append(manualLocation);
+
 	$('#usersAddressSubmit').on('click', function(e){
 		e.preventDefault();
 		giftApp.usersInputAddress = $('#usersAddress').val();
 		console.log(giftApp.usersInputAddress);
+		$('.userLocationOverlay').hide();
 	})
 }
 
@@ -1315,12 +1325,10 @@ giftApp.events = () => {
 } //end of events()
 
 giftApp.init = () => {
-	giftApp.userLocationManual();
 	giftApp.events();
 	giftApp.initMap();
 } //end of init();
 
 $(function() {
    giftApp.init();
-   Select.init();
 });

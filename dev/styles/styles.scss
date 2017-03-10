@@ -26,6 +26,25 @@ h1 {
 	text-align: center;
 }
 
+.userLocationOverlay {
+	z-index: 99999;
+	background: rgba(0, 0, 0, 0.7);
+	bottom: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	.addressInput {
+		display: flex;
+		justify-content: center;
+		align-item: center;
+	}
+}
+
+.alcoholResults {
+	position: relative;
+}
+
 .header__placemat {
 	width: 80%;
 	height: 80vh;
