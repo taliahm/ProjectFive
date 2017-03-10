@@ -1,0 +1,37 @@
+.userLocationOverlay {
+	z-index: 999;
+	background: rgba(0, 0, 0, 0.7);
+	bottom: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	.addressInput {
+		display: flex;
+		justify-content: center;
+		align-item: center;
+	}
+}
+
+.mapContainer {
+	height: 500px;
+	// display: -webkit-box;
+	// display: -ms-flexbox;
+	// display: flex;
+}
+
+#map {
+	height: 100%;
+}
+
+//Styling for info windows on google map
+
+#infoWindow {
+	h6 {
+		margin:0;
+	}
+	p {
+		margin:0;
+	}
+}
+

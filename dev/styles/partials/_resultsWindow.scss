@@ -1,0 +1,16 @@
+.alcoholResults {
+	position: relative;
+}
+
+//Just making result images smaller for now
+.resultItem .imageContain {
+	width:25%;
+	img {
+		max-width: 100%;
+		display: block;
+	}
+}
+
+form.results {
+	display: none;
+}
