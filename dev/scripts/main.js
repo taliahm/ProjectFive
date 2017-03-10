@@ -179,7 +179,9 @@ giftApp.convertStores = (array) => {
 		return `${item.latitude}, ${item.longitude}`
 	})
 	giftApp.arrayForGoogle = storeLngLat;
-	giftApp.runDisMatrix(giftApp.userLatLng);
+	console.log(giftApp.arrayForGoogle);
+	// giftApp.runDisMatrix(giftApp.userLatLng);
+	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
 	// console.log('distance array for google', giftApp.arrayForGoogle);
 }
 
@@ -206,7 +208,7 @@ giftApp.map;
 giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
-		// scrollwheel: false,
+		scrollwheel: false,
 		zoom: 8
 		});
 	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
@@ -245,6 +247,18 @@ if (navigator.geolocation) {
 	}
 	// console.log("yay location", giftApp.keepUserLocation);
 } // end giftApp.initMap
+
+giftApp.initMapLCBO = () => {
+	const infoWindowLCBO = new google.maps.InfoWindow({
+		map: giftApp.map
+	});
+	var myLatLng = {lat: -25.363, lng: 131.044};
+	var marker = new google.maps.Marker({
+	        position: myLatLng,
+	        map: giftApp.map,
+	        title: 'Hello World!'
+	      });
+}
 
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
