@@ -1017,7 +1017,7 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 giftApp.convertStores = (array) => {
 	console.log('stores unfiltered', array)
 	const storeLngLat = array.map(function(item){
-	return [item.name, item.latitude, item.longitude, 1, item.]
+	return [item.name, item.latitude, item.longitude, 1]
 });
 	giftApp.arrayForGoogle = storeLngLat;
 	//pass array to google maps
@@ -1090,18 +1090,6 @@ giftApp.userLocationManual = () => {
 		giftApp.usersInputAddress = $('#usersAddress').val();
 		console.log(giftApp.usersInputAddress);
 	})
-}
-
-giftApp.initMapLCBO = () => {
-	const infoWindowLCBO = new google.maps.InfoWindow({
-		map: giftApp.map
-	});
-	var myLatLng = {lat: -25.363, lng: 131.044};
-	var marker = new google.maps.Marker({
-	        position: myLatLng,
-	        map: giftApp.map,
-	        title: 'Hello World!'
-	      });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
