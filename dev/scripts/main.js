@@ -461,7 +461,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 		let secondArrayReturn = alcoholDataTwo.result;
 		let combinedAlcoholArray = [...firstArrayReturn,...secondArrayReturn,...thirdArrayReturn];
 		// console.log(combinedAlcoholArray);
-		// giftApp.filterByPrimeCat(combinedAlcoholArray); //commented out because API is down
+		giftApp.filterByPrimeCat(combinedAlcoholArray); //comment out if API is not working
 	})
 
 }
@@ -482,7 +482,7 @@ giftApp.getLcboStores = function(id) {
 		}
 	});$.when(giftApp.lcboStorebyId).done(function(data){
 		const lcboStores = data.result;
-		// giftApp.convertStores(lcboStores); //commented out because API not working
+		giftApp.convertStores(lcboStores); //commented out if API not working
 	})
 };
 
@@ -1175,8 +1175,8 @@ giftApp.getUserChoice = () => {
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
-		// giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  commented out because API is down
-		giftApp.filterByPrimeCat(alcoholResults);
+		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
+		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
 	})
 } //end of getUserChoice()
@@ -1187,8 +1187,8 @@ giftApp.confirmUserChoice = () => {
 		console.log('confirm clicked');
 		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		console.log(idOfChoice);
-		// giftApp.getLcboStores(idOfChoice); //commented out because API not working
-		giftApp.convertStores(results);
+		giftApp.getLcboStores(idOfChoice); //comment out if API not working
+		// giftApp.convertStores(results); //comment IN if API not working
 
 	})
 }
