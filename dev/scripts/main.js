@@ -506,10 +506,11 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 		}
 	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
 		const lcboStoresTwo = dataTwo.result;
-		console.log('second pull', lcboStoresTwo);
+		// console.log('second pull', lcboStoresTwo);
 		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
-		console.log('together', lcboStoresTogether);
-		giftApp.convertStores(lcboStoresTogether); //commented out if API not working
+		// console.log('together', lcboStoresTogether);
+		//Converts data intro array that google maps can read for markers
+		giftApp.convertStores(lcboStoresTogether); //comment out if API not working
 	})
 };
 
@@ -1023,6 +1024,7 @@ giftApp.convertStores = (array) => {
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
 }
 
+
 giftApp.filterByPrimeCat = (array) => {
 		let idofEl = `#${giftApp.userAlcoholChoice}`;
 		let filterParamSelector = $('#alcoholType').children(idofEl);
@@ -1098,12 +1100,6 @@ giftApp.initMapLCBO = (param) => {
 	console.log('second Map is UP')
 	giftApp.setMarkers(giftApp.map);
 }
-     //this is the content for the popup window, again, made up, from google maps example
-     var contentString = `<div id="content"> A POP UP</div>`;
-     //this is where we set the infoWindow to equal the made up contentString above, from Google maps example
-     var infowindow = new google.maps.InfoWindow({
-              content: contentString
-            });
 
 giftApp.setMarkers = function(map) {
 	giftApp.arrayForGoogle.forEach(function(item){
@@ -1115,11 +1111,24 @@ giftApp.setMarkers = function(map) {
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
+		console.log(item);
+		var contentString = `'<div id="content">${item[0]}</div>'`;
+		var infoWindow = new google.maps.InfoWindow({
+			content: contentString
+		})
 		marker.addListener('click', function(){
-				infowindow.open(map, marker);
+				infoWindow.open(map, marker);
 			})
 	})
 }
+
+// //this is the content for the popup window, again, made up, from google maps example
+// var contentString = `<div id="content"> A POP UP</div>`;
+// //this is where we set the infoWindow to equal the made up contentString above, from Google maps example
+// var infowindow = new google.maps.InfoWindow({
+//          content: contentString
+//        });
+
 
 //using Google Maps Distance Matrix to compare distances of LCBO stores to user location
 //CURRENTLY NOT BEING CALLED, sitting dormant
@@ -1249,7 +1258,7 @@ giftApp.getFinalArray = (array) => {
 	giftApp.displayAlcohol(finalArray);
 }
 
-//THIS FUNCTION IS READY TO BE CALLED ONCE FILTER IS DONE
+
 giftApp.displayAlcohol = (array) => {
 	$('.results').show();
 	$('.resultsShow').empty();
