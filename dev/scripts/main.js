@@ -1154,11 +1154,8 @@ giftApp.initMapLCBO = (param) => {
 }
 
 giftApp.setMarkers = function(map) {
-<<<<<<< HEAD
-      let image = '../../assets/mapMarker.png';
-=======
     giftApp.setManualMarker();
->>>>>>> 05dcc7927d5759d002007252dc45a0a4e4e6fa8d
+      let image = '../../assets/mapMarker.png';
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
