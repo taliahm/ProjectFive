@@ -2,9 +2,10 @@ $primaryFont: 'Francois One', sans-serif;
 $secondaryFont: 'Lato', sans-serif;
 
 $colorDk: #0F4E84;
-// $colorDk: rgb(15,78,132);
 $colorMd: #D9F0F5;
-// $colorMd: rgb(217,240,245);
 $colorLt: #F0F9FE;
-// $colorLt: rbg(240,249,254);
+
+$sml: ( max: 570px );
+$med: ( max: 680px );
+$lrg: ( max: 750px );
 

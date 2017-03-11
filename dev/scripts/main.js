@@ -1067,7 +1067,7 @@ giftApp.map;
 
 giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: -34.397, lng: 150.644},
+		center: {lat: 43.6532, lng: 79.3832},
 		scrollwheel: false,
 		zoom: 8, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
@@ -1334,7 +1334,10 @@ giftApp.displayAlcohol = (array) => {
             var displayBudget = '$$$';
       }
       let userChoiceElem = `<div class="choice">
-                              <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks:</p>
+                              <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks.</p>
+                            </div>
+                            <div class="responsiveMessage">
+                            <p>Please tap to select the gift of your choice, and scroll down to see where to buy.</p>
                             </div>`;
       let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);
       $('.alcoholResults').prepend(elemTogether);

@@ -1,5 +1,5 @@
 header {
-	background-image: url("../../dev/assets/nickghattasphoto.jpg");
+	background-image: url("../../assets/nickghattasphoto.jpg");
 	width: 100%;
 	height: 100vh;
 	background-repeat: no-repeat;
@@ -7,6 +7,9 @@ header {
 	background-size: cover;
 	display: flex;
 	align-items: center;
+	@include bp(med) {
+		height: auto;
+	}
 }
 
 h1 {
@@ -15,10 +18,14 @@ h1 {
 	color: $colorDk;
 	font-size: 5.5rem;
 	margin: 0 0 5px 0;
+	@include bp(sml) {
+		font-size: 3.5rem;
+	}
 }
 
 .button {
 	@include buttonStyles;
+	margin-bottom: 15px;
 }
 
 .header__placemat {
@@ -29,14 +36,23 @@ h1 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	@include bp(med) {
+		padding: 10px;
+		height: auto;
+	}
 }
 
 .subhead {
 	text-transform: uppercase;
 	letter-spacing: 0.1rem;
+	line-height: 2rem;
 	color: $colorDk;
 	text-align: center;
 	margin: 0 0 50px 0;
+	@include bp(sml) {
+		font-size: 1rem;
+		margin: 0 0 15px 0;
+	}
 }
 
 .userInput {
@@ -50,12 +66,19 @@ h1 {
 .selectForm__lookingWrapper {
 	display: flex;
 	justify-content: center;
+	@include bp(med) {
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
 .selectForm__nameWrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	@include bp(sml) {
+		flex-direction: column;
+	}
 }
 
 .dropdown {
@@ -69,7 +92,7 @@ h1 {
 	font-family: $secondaryFont;
 	color: $colorDk;
 	background-color: rgba(217,240,245, 0.5);
-	background-image: url(../../dev/assets/downarrow.png);
+	background-image: url(../../assets/downarrow.png);
 	background-repeat: no-repeat;
 	background-size: 10%;
 	background-position: 95%;
