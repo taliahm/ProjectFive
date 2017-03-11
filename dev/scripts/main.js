@@ -1024,31 +1024,32 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 
 
 
-// giftApp.googlePlaces = function(searchString) {
-//    const response = $.ajax({
-//        url: 'https://proxy.hackeryou.com',
-//        dataType: 'json',
-//        method:'GET',
-//        data: {
-//            reqUrl: 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
-//            params: {
-//                key: giftApp.mapsKey,
-//                input: searchString,
-//                types: 'geocode',
-//                language: 'en',
-//                components: 'country:us|country:ca',
-//            },
-//            xmlToJSON: false
-//        }
-//    });
-//    $.when(response)
-//    .done(function(responseInfo) {
-//        giftApp.displayAutoCompleteResults(responseInfo.predictions);
-//    })
-//    .fail(function(error) {
-//        console.error('ERROR: ', error);
-//    });
-// };
+giftApp.googlePlaces = function(searchString) {
+   const response = $.ajax({
+       url: 'https://proxy.hackeryou.com',
+       dataType: 'json',
+       method:'GET',
+       data: {
+           reqUrl: 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+           params: {
+               key: giftApp.mapsKey,
+               input: searchString,
+               types: 'geocode',
+               language: 'en',
+               components: 'country:us|country:ca',
+           },
+           xmlToJSON: false
+       }
+   });
+   $.when(response)
+   .done(function(responseInfo) {
+        console.log('This is user result for GM', responseInfo)
+       // giftApp.displayAutoCompleteResults(responseInfo.predictions);
+   })
+   .fail(function(error) {
+       console.error('ERROR: ', error);
+   });
+};
 
 
 
@@ -1185,7 +1186,7 @@ giftApp.userLocationManual = () => {
 	$('#usersAddressSubmit').on('click', function(e){
 		e.preventDefault();
 		giftApp.usersInputAddress = $('#usersAddress').val();
-		console.log(giftApp.usersInputAddress);
+		giftApp.googlePlaces(giftApp.usersInputAddress);
 		$('.userLocationOverlay').hide();
 	})
 }
