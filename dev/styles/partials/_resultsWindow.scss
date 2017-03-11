@@ -13,6 +13,7 @@
 
 form.results {
 	display: none;
+	height: 100vh;
 }
 
 .resultsShow {
@@ -25,16 +26,27 @@ form.results {
 	padding-top: 15px;
 }
 
+.choice {
+	font-family: $primaryFont;
+	color: $colorDk;
+	font-size: 2rem;
+	margin: 15px 15px 0 15px;
+	text-align: center;
+	p {
+		margin: 30px 0 0 0;
+	}
+}
+
 .chooseAlcohol {
-	// display: none;
+	display: none;
 }
 
 .resultItem {
 	display: flex;
-	margin: 10px;
+	margin: 5px 10px;
 	width: calc(33.3% - 20px);
-	// height: 100%;
-	background-color: red;
+	height: 260px;
+	border: 5px solid white;
 }
 
 .resultsLabel {
@@ -42,35 +54,17 @@ form.results {
 	flex-direction: column;
 	align-items: center;
 	border: 1px solid $colorMd;
+	outline: 5px solid white;
 	margin: 10px;
 	padding: 10px;
 	position: relative;
+	&:hover {
+		outline: 5px solid $colorDk;
+	}
 }
 
-.resultsLabel:checked {
-	 border: 5px solid purple;
-}
-
-.resultsLabel__overlay {
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	// height: 100%;
-	background-color: rgba(217,240,245, 0.8);
-	color: black;
-	font-family: $secondaryFont;
-	size: 1.4rem;
-	padding: 10px 20px;
-	// display: none;
-}
-
-.resultsLabel__overlay p {
-	text-align: center;
+input[type="radio"]:checked ~ .resultsLabel {
+	outline: 5px solid $colorDk;
 }
 
 .resultsText {
@@ -84,12 +78,15 @@ form.results {
 .alcoholResults__button--container {
 	display: flex;
 	justify-content: center;
+	margin-top: 10px;
 }
 
 #confirm {
 	@include buttonStyles;
+	margin: 10px;
 }
 
 #newSelection {
 	@include buttonStyles;
+	margin: 10px;
 }
