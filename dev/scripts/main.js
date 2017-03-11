@@ -1294,7 +1294,9 @@ giftApp.getUserChoice = () => {
 		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
+        giftApp.userOccasionContent = $('#occasion').find(':selected').text();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
+        giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
@@ -1379,8 +1381,7 @@ giftApp.displayAlcohol = (array) => {
             var displayBudget = '$$$';
       }
       let userChoiceElem = `<div class="choice">
-                              <p>You're looking at ${giftApp.userAlcoholChoice} for ${giftApp.userOccasion}</p>
-                              <p> You are spending ${displayBudget}</p>
+                              <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks:</p>
                             </div>`;
                             console.log(userChoiceElem);
       let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);
@@ -1399,9 +1400,6 @@ giftApp.displayAlcohol = (array) => {
 				<p>${item.origin}</p>
 				<p>${item.style}</p>
 				<p>${item.producer_name}</p>
-            <div class="resultsLabel__overlay">
-                <p>This gift is perfect!</p>
-            </div>
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
 		console.log(allElems);
