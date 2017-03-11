@@ -1379,7 +1379,9 @@ giftApp.displayAlcohol = (array) => {
 				<p>${item.origin}</p>
 				<p>${item.style}</p>
 				<p>${item.producer_name}</p>
-			</div>
+            <div class="resultsLabel__overlay">
+                <p>This gift is perfect!</p>
+            </div>
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
 		console.log(allElems);

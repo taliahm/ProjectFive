@@ -7,15 +7,23 @@
 	<link href="https://fonts.googleapis.com/css?family=Francois+One|Lato" rel="stylesheet">
 	<meta name="viewport" content="initial-scale=1.0" user-scalable="no">
 	<meta charset="utf-8">
+	<link rel="icon" href="../../dev/assets/favicon.ico" type="image/x-icon">
+	<!-- Built by Talia Harrison-Marcassa, Alex Ghattas, and Jessica Del Grande as part of the HackerYou Front-End Web Development Intensive. -->
+	<!-- Background image generously provided by Nick Ghattas. Favicon by Innocent Sibanda for The Noun Project. -->
 </head>
+
 <body>
+
 	<header>
+
 		<section class="header__placemat">
+
 			<div class="selectForm__wrapper">
 				<h1>What Should I Bring?</h1>
 				<p class="subhead">The app that turns you into the perfect guest</p>
 
 				<form class="userInput"> <!-- This gets hidden and shown on click -->
+					
 					<div class="selectForm__lookingWrapper">
 						<div class="selectForm__nameWrapper">
 							<p>I am looking for</p>
@@ -26,6 +34,7 @@
 								<option data-filterParam="Ready-to-Drink/Coolers" value="coolers" id="coolers">coolers</option>
 							</select>
 						</div>
+
 						<div class="selectForm__nameWrapper">
 							<p>for</p>
 							<select class="dropdown" name="occasion" id="occasion">
@@ -56,6 +65,7 @@
 					</div>
 
 					<input class="button" type="submit" value="Gift Me!" id="giftMe">
+
 				</form><!-- end .userInput -->
 			</div><!-- end .selectForm__wrapper -->
 		</section><!-- end .header__placemat -->
@@ -67,18 +77,25 @@
 			<div class="resultsShow">
 				<!-- Results go here using jquery -->
 			</div>
-			<input type="submit" value="Confirm Selection" id="confirm">
+			<div class="alcoholResults__button--container">
+				<input type="submit" value="Confirm Selection" id="confirm">
+				<input type="submit" value="Make a New Selection" id="newSelection">
+			</div>
 		</form>
-	</section>
+	</section><!-- end .alcoholResults -->
+
 	<section class="mapContainer">
 		<div id="map">
 			<!-- Google map goes here -->
 		</div>
 	</section>
+
+	<!-- scripts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
 	<script src="https://code.jquery.com/ui/1.8.24/jquery-ui.js" integrity="sha256-xWbKoNW9eZkm1RodPMQHsVyql6jqeiD6IYvsGyKEW78=" crossorigin="anonymous"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVbEW4i2vR1wWs403_TdJ_PVRFeOUwd20"></script>
 	<script src="dev/scripts/main.js"></script>
+	<!-- end scripts -->
 </body>
 </html>
