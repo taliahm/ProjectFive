@@ -1381,7 +1381,10 @@ giftApp.displayAlcohol = (array) => {
             var displayBudget = '$$$';
       }
       let userChoiceElem = `<div class="choice">
-                              <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks:</p>
+                              <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks.</p>
+                            </div>
+                            <div class="responsiveMessage">
+                            <p>Please tap to select the gift of your choice, and scroll down to see where to buy.</p>
                             </div>`;
                             console.log(userChoiceElem);
       let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);

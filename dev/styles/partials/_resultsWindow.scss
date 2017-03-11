@@ -39,6 +39,17 @@ form.results {
 	}
 }
 
+.responsiveMessage {
+	font-family: $primaryFont;
+	color: $colorDk;
+	font-size: 1.5rem;
+	text-align: center;
+	display: none;
+	@include bp(med) {
+		display: block;
+	}
+}
+
 .chooseAlcohol {
 	display: none;
 }
