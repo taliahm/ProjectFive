@@ -1019,85 +1019,22 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 
 
 
-
-
-
-
-
-giftApp.googlePlaces = function(searchString) {
-   const response = $.ajax({
-       url: 'https://proxy.hackeryou.com',
-       dataType: 'json',
-       method:'GET',
-       data: {
-           reqUrl: 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
-           params: {
-               key: giftApp.mapsKey,
-               input: searchString,
-               types: 'geocode',
-               language: 'en',
-               components: 'country:us|country:ca',
-           },
-           xmlToJSON: false
-       }
-   });
-   $.when(response)
-   .done(function(responseInfo) {
-        console.log('This is user result for GM', responseInfo)
-       // giftApp.displayAutoCompleteResults(responseInfo.predictions);
-   })
-   .fail(function(error) {
-       console.error('ERROR: ', error);
-   });
+giftApp.getUsersLocationManual = function() {
+        var input = $('#autocomplete')[0];
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            giftApp.inputLocationName = place.name;
+            giftApp.inputLatitude = place.geometry.location.lat();
+            giftApp.inputLongitude = place.geometry.location.lng();
+            console.log('LAT!!!', giftApp.inputLatitude);
+        });
+        google.maps.event.addDomListener(input, 'keydown', function(e) { 
+        if (e.keyCode == 13) { 
+            e.preventDefault(); 
+         } 
+        });
 };
-
-
-
-// giftApp.searchField = $('#usersAddress');
-// giftApp.userSearchInputResult;
-
-
-
-// giftApp.displayAutoCompleteResults = (results) => {
-
-//    const autocompleteItemClass = 'autocompleteItem';
-//    const autocompleteList = [];
-   
-//    if(results.length > 0) {
-//        results.forEach(function(result) {
-//            autocompleteList.push({ label: result.description, value: result.place_id });
-//        });
-
-//        giftApp.searchField.autocomplete({
-//            minLength:3,
-//            source: autocompleteList,
-//            autoFocus:true,
-//            select: function(event, ui) {
-//                event.preventDefault();
-//                $(this).val(ui.item.label);
-//                giftApp.userSearchInputResult = ui.item.value;
-//                console.log(giftApp.userSearchInputResult);
-//            },
-//            messages: {
-//                noResults: '',
-//                results: function() {}
-//            }
-//        });
-//    }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
@@ -1167,6 +1104,7 @@ if (navigator.geolocation) {
 	handleLocationError(true, infoWindow, giftApp.map.getCenter());
 		// If users denies to auto locate
 		giftApp.userLocationManual();
+        giftApp.getUsersLocationManual();
 
 	});
 	} else {
@@ -1177,19 +1115,19 @@ if (navigator.geolocation) {
 
 giftApp.userLocationManual = () => {
 	let manualLocationEl = 
-			`<form class="addressInput">
-				<input type="text" placeholder="Please type..." id="usersAddress">
-				<input type="submit" id="usersAddressSubmit">
-			</form>`
+			`<form id="locationField">
+      <input id="autocomplete" placeholder="Enter your address"
+              type="text"></input>
+    </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-	$('#usersAddressSubmit').on('click', function(e){
-		e.preventDefault();
-		giftApp.usersInputAddress = $('#usersAddress').val();
-		giftApp.googlePlaces(giftApp.usersInputAddress);
-		$('.userLocationOverlay').hide();
-	})
+    $('#autocomplete').on('submit', function(e){
+        e.preventDefault();
+        ('.userLocationOverlay').hide();
+    });
 }
+
+
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
@@ -1433,7 +1371,7 @@ giftApp.events = () => {
 } //end of events()
 
 giftApp.init = () => {
-	giftApp.events();
+   	giftApp.events();
 	giftApp.initMap();
 } //end of init();
 
