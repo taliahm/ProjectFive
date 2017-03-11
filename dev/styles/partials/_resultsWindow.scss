@@ -25,11 +25,20 @@ form.results {
 
 .resultItem {
 	display: flex;
-	width: 33.3%;
+	margin: 10px;
+	width: calc(33.3% - 20px);
 }
 
 .resultsLabel {
-	display: flex:
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid red;
+	// margin: 10px;
+}
+
+.resultsText {
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;

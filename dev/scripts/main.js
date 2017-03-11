@@ -1374,7 +1374,7 @@ giftApp.displayAlcohol = (array) => {
 			<div class="imageContain">
 				<img src="${item.image_url}" alt="${item.name}">
 			</div>
-			<div class="text">
+			<div class="resultsText">
 				<h2>${item.name}</h2>
 				<p>${item.origin}</p>
 				<p>${item.style}</p>
