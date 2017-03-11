@@ -26,7 +26,7 @@ form.results {
 }
 
 .chooseAlcohol {
-	display: none;
+	// display: none;
 }
 
 .resultItem {
@@ -45,6 +45,10 @@ form.results {
 	margin: 10px;
 	padding: 10px;
 	position: relative;
+}
+
+.resultsLabel:checked {
+	 border: 5px solid purple;
 }
 
 .resultsLabel__overlay {
@@ -82,7 +86,7 @@ form.results {
 	justify-content: center;
 }
 
-#confirmSelection {
+#confirm {
 	@include buttonStyles;
 }
 
