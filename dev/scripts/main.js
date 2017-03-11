@@ -1298,6 +1298,9 @@ giftApp.getUserChoice = () => {
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
+            console.log('user budget', giftApp.userBudget);
+            console.log('user alcohol choice', giftApp.userAlcoholChoice);
+            console.log('user occasion choice', giftApp.userOccasion);
 	})
 } //end of getUserChoice()
 
@@ -1367,7 +1370,24 @@ giftApp.getFinalArray = (array) => {
 giftApp.displayAlcohol = (array) => {
 	$('.results').show();
 	$('.resultsShow').empty();
-	var elemArray = array.forEach((item) =>{
+      //show user's choice
+      if(giftApp.userBudget === 'low') {
+            var displayBudget = '$';
+      } else if(giftApp.userBudget === 'medium') {
+            var displayBudget = '$$';
+      } else if(giftApp.userBudget === 'high') {
+            var displayBudget = '$$$';
+      }
+      let userChoiceElem = `<div class="choice">
+                              <p>You're looking at ${giftApp.userAlcoholChoice} for ${giftApp.userOccasion}</p>
+                              <p> You are spending ${displayBudget}</p>
+                            </div>`;
+                            console.log(userChoiceElem);
+      let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);
+      console.log(elemTogether)
+      $('.alcoholResults').prepend(elemTogether);
+      //show selections from LCBO
+	let elemArray = array.forEach((item) =>{
 		let elemString = `
 		<input type="radio" name="chooseAlcohol" data-id="${item.id}" id="${item.id}">
 		<label class="resultsLabel" for="${item.id}">
