@@ -1,5 +1,6 @@
 .alcoholResults {
 	position: relative;
+	display: none;
 }
 
 //Just making result images smaller for now
@@ -12,7 +13,7 @@
 }
 
 form.results {
-	display: none;
+	// display: none;
 	height: 100vh;
 }
 

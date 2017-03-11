@@ -1069,7 +1069,8 @@ giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
 		scrollwheel: false,
-		zoom: 8
+		zoom: 8, 
+            styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
 	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
@@ -1153,13 +1154,18 @@ giftApp.initMapLCBO = (param) => {
 }
 
 giftApp.setMarkers = function(map) {
+<<<<<<< HEAD
+      let image = '../../assets/mapMarker.png';
+=======
     giftApp.setManualMarker();
+>>>>>>> 05dcc7927d5759d002007252dc45a0a4e4e6fa8d
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
 			map: giftApp.map, 
 			title: item[0],
 			zIndex: item[3],
+                   icon: image
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
@@ -1253,13 +1259,22 @@ giftApp.getUserChoice = () => {
 giftApp.confirmUserChoice = () => {
 	$('#confirm').on('click', function(e){
 		e.preventDefault();
-		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
-		giftApp.getLcboStores(idOfChoice); //comment out if API not working
-		// giftApp.convertStores(results); //comment IN if API not working
-
+                console.log('we checked something')
+		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
+		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
 	})
 }
 
+giftApp.userChooseAgain = () => {
+      $('#newSelection').on('click', function(e){
+            e.preventDefault();
+            console.log('selection clicked');
+            $('.alcoholResults').hide();
+            $('.resultsShow').empty();
+            $('.topDisplay').empty();
+            $('.userInput').show();
+      })
+}
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
@@ -1311,7 +1326,7 @@ giftApp.getFinalArray = (array) => {
 
 
 giftApp.displayAlcohol = (array) => {
-	$('.results').show();
+	$('.alcoholResults').show();
 	$('.resultsShow').empty();
       //show user's choice
       if(giftApp.userBudget === 'low') {
@@ -1328,8 +1343,12 @@ giftApp.displayAlcohol = (array) => {
       $('.alcoholResults').prepend(elemTogether);
       //show selections from LCBO
 	let elemArray = array.forEach((item) =>{
+            if(item.style === null){
+                  var styleDescription = 'Such a good drink';
+            }
+            else { var styleDescription = item.style}
 		let elemString = `
-		<input type="radio" name="chooseAlcohol" class="chooseAlcohol" data-id="${item.id}" id="${item.id}">
+		<input type="radio" checked=true name="chooseAlcohol" class="chooseAlcohol" data-id="${item.id}" id="${item.id}">
 		<label class="resultsLabel" for="${item.id}">
 			<div class="imageContain">
 				<img src="${item.image_url}" alt="${item.name}">
@@ -1337,7 +1356,7 @@ giftApp.displayAlcohol = (array) => {
 			<div class="resultsText">
 				<h2>${item.name}</h2>
 				<p>${item.origin}</p>
-				<p>${item.style}</p>
+				<p>${styleDescription}</p>
 				<p>${item.producer_name}</p>
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
@@ -1367,6 +1386,7 @@ giftApp.smoothScroll = () => {
 giftApp.events = () => {
 	giftApp.getUserChoice();
 	giftApp.confirmUserChoice();
+      giftApp.userChooseAgain();
 } //end of events()
 
 giftApp.init = () => {
