@@ -1027,10 +1027,9 @@ giftApp.getUsersLocationManual = function() {
             giftApp.inputLocationName = place.name;
             giftApp.inputLatitude = place.geometry.location.lat();
             giftApp.inputLongitude = place.geometry.location.lng();
-            console.log('LAT!!!', giftApp.inputLatitude);
         });
         google.maps.event.addDomListener(input, 'keydown', function(e) { 
-        if (e.keyCode == 13) { 
+        if (e.keyCode === 13) { 
             e.preventDefault(); 
          } 
         });
@@ -1038,7 +1037,6 @@ giftApp.getUsersLocationManual = function() {
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
-	console.log('stores unfiltered', array)
 	giftApp.arrayForGoogle = array.map(function(item){
 	     return [item.name, item.latitude, item.longitude, 1, item.address_line_1, item.address_line_2, item.city, item.postal_code, item.telephone]
       });
@@ -1046,7 +1044,6 @@ giftApp.convertStores = (array) => {
            return {lat: Number(item.latitude), lng: Number(item.longitude)};
       })
       // {lat: 50.087, lng: 14.421}
-      console.log('new lat long array', giftApp.arrayForDisMatrix);
 	//pass array to google maps
       // giftApp.runDisMatrix(giftApp.userLocation);
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
@@ -1089,8 +1086,6 @@ if (navigator.geolocation) {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-
-
 		infoWindow.setPosition(pos);
 		infoWindow.setContent('Location found.');
 		giftApp.map.setCenter(pos);
@@ -1101,7 +1096,7 @@ if (navigator.geolocation) {
 		console.log('users position', giftApp.userLatLng);
 
 	}, function() {
-	handleLocationError(true, infoWindow, giftApp.map.getCenter());
+	// handleLocationError(true, infoWindow, giftApp.map.getCenter());
 		// If users denies to auto locate
 		giftApp.userLocationManual();
         giftApp.getUsersLocationManual();
@@ -1116,18 +1111,31 @@ if (navigator.geolocation) {
 giftApp.userLocationManual = () => {
 	let manualLocationEl = 
 			`<form id="locationField">
-      <input id="autocomplete" placeholder="Enter your address"
-              type="text"></input>
-    </form>`
+                 <input id="autocomplete" placeholder="Enter your address"
+                type="text"></input>
+                <input id="submitLocation" value="find" type="submit"></input>
+            </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-    $('#autocomplete').on('submit', function(e){
+    $('#submitLocation').on('click', function(e){
         e.preventDefault();
-        ('.userLocationOverlay').hide();
+        $('.userLocationOverlay').hide();
     });
 }
 
 
+giftApp.setManualMarker = function(){
+    var manualLocationInputted = {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude}
+    giftApp.map.setCenter(manualLocationInputted);
+        var marker = new google.maps.Marker({
+            position: {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude},
+            map: giftApp.map, 
+            title: 'your Location',
+            zIndex: 8,
+             // icon: image, customizable property we could include  
+           // shape: shape, customizable property we could include
+        })
+}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
@@ -1141,11 +1149,11 @@ giftApp.initMapLCBO = (param) => {
 	const infoWindowLCBO = new google.maps.InfoWindow({
 		map: giftApp.map
 	});
-	console.log('second Map is UP')
 	giftApp.setMarkers(giftApp.map);
 }
 
 giftApp.setMarkers = function(map) {
+    giftApp.setManualMarker();
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
@@ -1155,7 +1163,7 @@ giftApp.setMarkers = function(map) {
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
-		console.log(item);
+		// console.log(item);
 		var contentString = `<div id="infoWindow">
                                     <h6>LCBO Store at ${item[0]}</h6>
                                     <p>Address: ${item[4]}</p>
@@ -1165,7 +1173,6 @@ giftApp.setMarkers = function(map) {
 
             marker.addListener('click', function(){
                   giftApp.infoWindow ? giftApp.infoWindow.close() : null;
-    
                   giftApp.infoWindow = new google.maps.InfoWindow({
                         content: contentString,
                   })
@@ -1230,6 +1237,7 @@ giftApp.setMarkers = function(map) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
+        giftApp.initMap();
 		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
@@ -1239,18 +1247,13 @@ giftApp.getUserChoice = () => {
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
-            console.log('user budget', giftApp.userBudget);
-            console.log('user alcohol choice', giftApp.userAlcoholChoice);
-            console.log('user occasion choice', giftApp.userOccasion);
 	})
 } //end of getUserChoice()
 
 giftApp.confirmUserChoice = () => {
 	$('#confirm').on('click', function(e){
 		e.preventDefault();
-		console.log('confirm clicked');
 		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
-		console.log(idOfChoice);
 		giftApp.getLcboStores(idOfChoice); //comment out if API not working
 		// giftApp.convertStores(results); //comment IN if API not working
 
@@ -1296,7 +1299,6 @@ giftApp.sortedArray = (passedData) => {
 	else {
 		let halfArray = sortedByAbv.slice(arrayHalfLength, sortedByAbv.length);
 		giftApp.getFinalArray(halfArray);
-		console.log('higher abv half', halfArray);
 	}
 } 
 
@@ -1322,9 +1324,7 @@ giftApp.displayAlcohol = (array) => {
       let userChoiceElem = `<div class="choice">
                               <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks:</p>
                             </div>`;
-                            console.log(userChoiceElem);
       let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);
-      console.log(elemTogether)
       $('.alcoholResults').prepend(elemTogether);
       //show selections from LCBO
 	let elemArray = array.forEach((item) =>{
@@ -1341,7 +1341,6 @@ giftApp.displayAlcohol = (array) => {
 				<p>${item.producer_name}</p>
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
-		console.log(allElems);
 		$('.resultsShow').append(allElems);
 	})
 }
@@ -1372,7 +1371,7 @@ giftApp.events = () => {
 
 giftApp.init = () => {
    	giftApp.events();
-	giftApp.initMap();
+	// giftApp.initMap();
 } //end of init();
 
 $(function() {
