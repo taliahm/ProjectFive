@@ -14,6 +14,8 @@
 form.results {
 	display: none;
 	height: 100vh;
+	@include bp(lrg)
+		height: auto;
 }
 
 .resultsShow {
@@ -45,8 +47,15 @@ form.results {
 	display: flex;
 	margin: 5px 10px;
 	width: calc(33.3% - 20px);
-	height: 260px;
+	height: 270px;
 	border: 5px solid white;
+	@include bp(lrg) {
+		width: calc(50% - 20px);
+		@include bp(med) {
+			width: 100%;
+			height: auto;
+		}
+	}
 }
 
 .resultsLabel {
@@ -78,15 +87,25 @@ input[type="radio"]:checked ~ .resultsLabel {
 .alcoholResults__button--container {
 	display: flex;
 	justify-content: center;
-	margin-top: 10px;
+	margin: 10px;
+	@include bp(med) {
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
 #confirm {
 	@include buttonStyles;
 	margin: 10px;
+	@include bp(lrg) {
+		width: 70%;
+	}
 }
 
 #newSelection {
 	@include buttonStyles;
 	margin: 10px;
+	@include bp(lrg) {
+		width: 70%;
+	}
 }

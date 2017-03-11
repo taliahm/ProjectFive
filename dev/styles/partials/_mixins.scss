@@ -14,3 +14,25 @@
 		border: 2px solid $colorDk;
 	}
 }
+
+// media breakpoints
+
+@mixin bp($size) {
+	@if ($size == 'sml') {
+		@media (max-width: 480px) { 
+			@content; 
+		}
+	}
+
+	@if ($size == 'med') {
+		@media (max-width: 570px) { 
+			@content; 
+		}
+	}
+ 
+	@if $size == 'lrg' {
+		@media (max-width: 750px) { 
+			@content; 
+		}
+	}
+}

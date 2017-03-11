@@ -1132,7 +1132,7 @@ giftApp.map;
 
 giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: -34.397, lng: 150.644},
+		center: {lat: 43.6532, lng: 79.3832},
 		scrollwheel: false,
 		zoom: 8
 		});
