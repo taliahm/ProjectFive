@@ -1019,88 +1019,24 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 
 
 
-
-
-
-
-
-// giftApp.googlePlaces = function(searchString) {
-//    const response = $.ajax({
-//        url: 'https://proxy.hackeryou.com',
-//        dataType: 'json',
-//        method:'GET',
-//        data: {
-//            reqUrl: 'https://maps.googleapis.com/maps/api/place/autocomplete/json',
-//            params: {
-//                key: giftApp.mapsKey,
-//                input: searchString,
-//                types: 'geocode',
-//                language: 'en',
-//                components: 'country:us|country:ca',
-//            },
-//            xmlToJSON: false
-//        }
-//    });
-//    $.when(response)
-//    .done(function(responseInfo) {
-//        giftApp.displayAutoCompleteResults(responseInfo.predictions);
-//    })
-//    .fail(function(error) {
-//        console.error('ERROR: ', error);
-//    });
-// };
-
-
-
-// giftApp.searchField = $('#usersAddress');
-// giftApp.userSearchInputResult;
-
-
-
-// giftApp.displayAutoCompleteResults = (results) => {
-
-//    const autocompleteItemClass = 'autocompleteItem';
-//    const autocompleteList = [];
-   
-//    if(results.length > 0) {
-//        results.forEach(function(result) {
-//            autocompleteList.push({ label: result.description, value: result.place_id });
-//        });
-
-//        giftApp.searchField.autocomplete({
-//            minLength:3,
-//            source: autocompleteList,
-//            autoFocus:true,
-//            select: function(event, ui) {
-//                event.preventDefault();
-//                $(this).val(ui.item.label);
-//                giftApp.userSearchInputResult = ui.item.value;
-//                console.log(giftApp.userSearchInputResult);
-//            },
-//            messages: {
-//                noResults: '',
-//                results: function() {}
-//            }
-//        });
-//    }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
+giftApp.getUsersLocationManual = function() {
+        var input = $('#autocomplete')[0];
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            giftApp.inputLocationName = place.name;
+            giftApp.inputLatitude = place.geometry.location.lat();
+            giftApp.inputLongitude = place.geometry.location.lng();
+        });
+        google.maps.event.addDomListener(input, 'keydown', function(e) { 
+        if (e.keyCode === 13) { 
+            e.preventDefault(); 
+         } 
+        });
+};
 
 //Function to map over returned stores and pull out lat/lng for Google Distance Matrix
 giftApp.convertStores = (array) => {
-	console.log('stores unfiltered', array)
 	giftApp.arrayForGoogle = array.map(function(item){
 	     return [item.name, item.latitude, item.longitude, 1, item.address_line_1, item.address_line_2, item.city, item.postal_code, item.telephone]
       });
@@ -1108,7 +1044,6 @@ giftApp.convertStores = (array) => {
            return {lat: Number(item.latitude), lng: Number(item.longitude)};
       })
       // {lat: 50.087, lng: 14.421}
-      console.log('new lat long array', giftApp.arrayForDisMatrix);
 	//pass array to google maps
       // giftApp.runDisMatrix(giftApp.userLocation);
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
@@ -1152,8 +1087,6 @@ if (navigator.geolocation) {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-
-
 		infoWindow.setPosition(pos);
 		infoWindow.setContent('Location found.');
 		giftApp.map.setCenter(pos);
@@ -1164,9 +1097,10 @@ if (navigator.geolocation) {
 		console.log('users position', giftApp.userLatLng);
 
 	}, function() {
-	handleLocationError(true, infoWindow, giftApp.map.getCenter());
+	// handleLocationError(true, infoWindow, giftApp.map.getCenter());
 		// If users denies to auto locate
 		giftApp.userLocationManual();
+        giftApp.getUsersLocationManual();
 
 	});
 	} else {
@@ -1177,18 +1111,31 @@ if (navigator.geolocation) {
 
 giftApp.userLocationManual = () => {
 	let manualLocationEl = 
-			`<form class="addressInput">
-				<input type="text" placeholder="Please type..." id="usersAddress">
-				<input type="submit" id="usersAddressSubmit">
-			</form>`
+			`<form id="locationField">
+                 <input id="autocomplete" placeholder="Enter your address"
+                type="text"></input>
+                <input id="submitLocation" value="find" type="submit"></input>
+            </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-	$('#usersAddressSubmit').on('click', function(e){
-		e.preventDefault();
-		giftApp.usersInputAddress = $('#usersAddress').val();
-		console.log(giftApp.usersInputAddress);
-		$('.userLocationOverlay').hide();
-	})
+    $('#submitLocation').on('click', function(e){
+        e.preventDefault();
+        $('.userLocationOverlay').hide();
+    });
+}
+
+
+giftApp.setManualMarker = function(){
+    var manualLocationInputted = {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude}
+    giftApp.map.setCenter(manualLocationInputted);
+        var marker = new google.maps.Marker({
+            position: {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude},
+            map: giftApp.map, 
+            title: 'your Location',
+            zIndex: 8,
+             // icon: image, customizable property we could include  
+           // shape: shape, customizable property we could include
+        })
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -1203,12 +1150,15 @@ giftApp.initMapLCBO = (param) => {
 	const infoWindowLCBO = new google.maps.InfoWindow({
 		map: giftApp.map
 	});
-	console.log('second Map is UP')
 	giftApp.setMarkers(giftApp.map);
 }
 
 giftApp.setMarkers = function(map) {
+<<<<<<< HEAD
       let image = '../../assets/mapMarker.png';
+=======
+    giftApp.setManualMarker();
+>>>>>>> 05dcc7927d5759d002007252dc45a0a4e4e6fa8d
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
@@ -1219,7 +1169,7 @@ giftApp.setMarkers = function(map) {
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
-		console.log(item);
+		// console.log(item);
 		var contentString = `<div id="infoWindow">
                                     <h6>LCBO Store at ${item[0]}</h6>
                                     <p>Address: ${item[4]}</p>
@@ -1229,7 +1179,6 @@ giftApp.setMarkers = function(map) {
 
             marker.addListener('click', function(){
                   giftApp.infoWindow ? giftApp.infoWindow.close() : null;
-    
                   giftApp.infoWindow = new google.maps.InfoWindow({
                         content: contentString,
                   })
@@ -1294,6 +1243,7 @@ giftApp.setMarkers = function(map) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
+        giftApp.initMap();
 		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
@@ -1303,23 +1253,15 @@ giftApp.getUserChoice = () => {
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
-            console.log('user budget', giftApp.userBudget);
-            console.log('user alcohol choice', giftApp.userAlcoholChoice);
-            console.log('user occasion choice', giftApp.userOccasion);
 	})
 } //end of getUserChoice()
 
 giftApp.confirmUserChoice = () => {
 	$('#confirm').on('click', function(e){
 		e.preventDefault();
-            // if($('input[name="chooseAlcohol"]').is(':checked')) {
                 console.log('we checked something')
 		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
-		// giftApp.convertStores(results); //comment IN if API not working
-            // $('.mapContainer').show();
-             // }
-             // else {alert('please pick something')}
 	})
 }
 
@@ -1372,7 +1314,6 @@ giftApp.sortedArray = (passedData) => {
 	else {
 		let halfArray = sortedByAbv.slice(arrayHalfLength, sortedByAbv.length);
 		giftApp.getFinalArray(halfArray);
-		console.log('higher abv half', halfArray);
 	}
 } 
 
@@ -1398,9 +1339,7 @@ giftApp.displayAlcohol = (array) => {
       let userChoiceElem = `<div class="choice">
                               <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks:</p>
                             </div>`;
-                            console.log(userChoiceElem);
       let elemTogether = $('<div class="topDisplay">').append(userChoiceElem);
-      console.log(elemTogether)
       $('.alcoholResults').prepend(elemTogether);
       //show selections from LCBO
 	let elemArray = array.forEach((item) =>{
@@ -1421,7 +1360,6 @@ giftApp.displayAlcohol = (array) => {
 				<p>${item.producer_name}</p>
 		</label>`
 		let allElems = $('<div class="resultItem">').append(elemString);
-		console.log(allElems);
 		$('.resultsShow').append(allElems);
 	})
 }
@@ -1452,8 +1390,8 @@ giftApp.events = () => {
 } //end of events()
 
 giftApp.init = () => {
-	giftApp.events();
-	giftApp.initMap();
+   	giftApp.events();
+	// giftApp.initMap();
 } //end of init();
 
 $(function() {
