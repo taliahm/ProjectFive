@@ -51,7 +51,7 @@ form.results {
 	border: 5px solid white;
 	@include bp(lrg) {
 		width: calc(50% - 20px);
-		@include bp(med) {
+		@include bp(sml) {
 			width: 100%;
 			height: auto;
 		}
@@ -88,7 +88,7 @@ input[type="radio"]:checked ~ .resultsLabel {
 	display: flex;
 	justify-content: center;
 	margin: 10px;
-	@include bp(med) {
+	@include bp(sml) {
 		flex-direction: column;
 		align-items: center;
 	}

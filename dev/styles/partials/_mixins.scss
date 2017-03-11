@@ -19,13 +19,13 @@
 
 @mixin bp($size) {
 	@if ($size == 'sml') {
-		@media (max-width: 480px) { 
+		@media (max-width: 570px) { 
 			@content; 
 		}
 	}
 
 	@if ($size == 'med') {
-		@media (max-width: 570px) { 
+		@media (max-width: 680px) { 
 			@content; 
 		}
 	}
