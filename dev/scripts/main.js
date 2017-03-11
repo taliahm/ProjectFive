@@ -1309,12 +1309,14 @@ giftApp.getUserChoice = () => {
 giftApp.confirmUserChoice = () => {
 	$('#confirm').on('click', function(e){
 		e.preventDefault();
-		console.log('confirm clicked');
-		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
-		console.log(idOfChoice);
-		giftApp.getLcboStores(idOfChoice); //comment out if API not working
+            // if($('input[name="chooseAlcohol"]').is(':checked')) {
+                console.log('we checked something')
+		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
+		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
 		// giftApp.convertStores(results); //comment IN if API not working
-
+            // $('.mapContainer').show();
+             // }
+             // else {alert('please pick something')}
 	})
 }
 
@@ -1322,8 +1324,9 @@ giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
             e.preventDefault();
             console.log('selection clicked');
-            $('.results').hide();
+            $('.alcoholResults').hide();
             $('.resultsShow').empty();
+            $('.topDisplay').empty();
             $('.userInput').show();
       })
 }
@@ -1379,7 +1382,7 @@ giftApp.getFinalArray = (array) => {
 
 
 giftApp.displayAlcohol = (array) => {
-	$('.results').show();
+	$('.alcoholResults').show();
 	$('.resultsShow').empty();
       //show user's choice
       if(giftApp.userBudget === 'low') {
@@ -1403,7 +1406,7 @@ giftApp.displayAlcohol = (array) => {
             }
             else { var styleDescription = item.style}
 		let elemString = `
-		<input type="radio" name="chooseAlcohol" class="chooseAlcohol" data-id="${item.id}" id="${item.id}">
+		<input type="radio" checked=true name="chooseAlcohol" class="chooseAlcohol" data-id="${item.id}" id="${item.id}">
 		<label class="resultsLabel" for="${item.id}">
 			<div class="imageContain">
 				<img src="${item.image_url}" alt="${item.name}">
