@@ -1134,7 +1134,8 @@ giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: -34.397, lng: 150.644},
 		scrollwheel: false,
-		zoom: 8
+		zoom: 8, 
+            styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
 	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
@@ -1207,12 +1208,14 @@ giftApp.initMapLCBO = (param) => {
 }
 
 giftApp.setMarkers = function(map) {
+      let image = '../../assets/mapMarker.png';
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
 			map: giftApp.map, 
 			title: item[0],
 			zIndex: item[3],
+                   icon: image
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
