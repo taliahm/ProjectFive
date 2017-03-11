@@ -1316,6 +1316,15 @@ giftApp.confirmUserChoice = () => {
 	})
 }
 
+giftApp.userChooseAgain = () => {
+      $('#newSelection').on('click', function(e){
+            e.preventDefault();
+            console.log('selection clicked');
+            $('.results').hide();
+            $('.resultsShow').empty();
+            $('.userInput').show();
+      })
+}
 
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
@@ -1435,6 +1444,7 @@ giftApp.smoothScroll = () => {
 giftApp.events = () => {
 	giftApp.getUserChoice();
 	giftApp.confirmUserChoice();
+      giftApp.userChooseAgain();
 } //end of events()
 
 giftApp.init = () => {
