@@ -46,6 +46,7 @@ form.results {
 	margin: 5px 10px;
 	width: calc(33.3% - 20px);
 	height: 260px;
+	border: 5px solid white;
 }
 
 .resultsLabel {
@@ -53,40 +54,17 @@ form.results {
 	flex-direction: column;
 	align-items: center;
 	border: 1px solid $colorMd;
+	outline: 5px solid white;
 	margin: 10px;
 	padding: 10px;
 	position: relative;
+	&:hover {
+		outline: 5px solid $colorDk;
+	}
 }
 
-.resultsLabel:checked {
-	 border: 5px solid $colorDk;
-}
-
-.resultsLabel__overlay {
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background-color: rgba(217,240,245, 0.8);
-	color: black;
-	font-family: $secondaryFont;
-	size: 1.4rem;
-	padding: 10px 20px;
-	display: none;
-}
-
-.resultsLabel__overlay p {
-	text-align: center;
-	font-size: 1.8rem;
-	font-family: $primaryFont;
-}
-
-div .resultsLabel__overlay:hover {
-	display: block
+input[type="radio"]:checked ~ .resultsLabel {
+	outline: 5px solid $colorDk;
 }
 
 .resultsText {
