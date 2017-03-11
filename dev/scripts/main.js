@@ -1388,6 +1388,10 @@ giftApp.displayAlcohol = (array) => {
       $('.alcoholResults').prepend(elemTogether);
       //show selections from LCBO
 	let elemArray = array.forEach((item) =>{
+            if(item.style === null){
+                  var styleDescription = 'Such a good drink';
+            }
+            else { var styleDescription = item.style}
 		let elemString = `
 		<input type="radio" name="chooseAlcohol" class="chooseAlcohol" data-id="${item.id}" id="${item.id}">
 		<label class="resultsLabel" for="${item.id}">
@@ -1397,7 +1401,7 @@ giftApp.displayAlcohol = (array) => {
 			<div class="resultsText">
 				<h2>${item.name}</h2>
 				<p>${item.origin}</p>
-				<p>${item.style}</p>
+				<p>${styleDescription}</p>
 				<p>${item.producer_name}</p>
             <div class="resultsLabel__overlay">
                 <p>This gift is perfect!</p>
