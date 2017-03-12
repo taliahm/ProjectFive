@@ -1008,9 +1008,53 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
 		const lcboStoresTwo = dataTwo.result;
 		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
-		giftApp.convertStores(lcboStoresTogether); //comment out if API not working
-            // giftApp.calcLoopNumbers(lcboStoresTogether);
+            giftApp.getLcboStoresThree(id, lcboStoresTogether);
 	})
+};
+
+giftApp.getLcboStoresThree = function(id, togetherResult) {
+      giftApp.lcboStorebyIdThree = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 5,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdThree).done(function(dataThree){
+            const lcboStoresThree = dataThree.result;
+            const lcboStoresTogetherAgain = [...togetherResult,...lcboStoresThree];
+            giftApp.getLcboStoresFour(id, lcboStoresTogetherAgain);
+      })
+};
+
+giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
+      giftApp.lcboStorebyIdFour = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 4,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdFour).done(function(dataFour){
+            const lcboStoresFour = dataFour.result;
+            const lcboStoresFinal = [...togetherResultAgain,...lcboStoresFour];
+            giftApp.convertStores(lcboStoresFinal); //comment out if API not working
+            // giftApp.calcLoopNumbers(lcboStoresTogether);
+      })
 };
 
 
@@ -1061,23 +1105,21 @@ giftApp.initMap = () => {
 		zoom: 8, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
-	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
+	// giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
-
-const infoWindow = new google.maps.InfoWindow({
-	map: giftApp.map
-});
-
 // if autolocation is allowed
 if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition((position) => {
+      const infoWindowHere = new google.maps.InfoWindow({
+            map: giftApp.map
+      });
 	const pos = {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-		infoWindow.setPosition(pos);
-		infoWindow.setContent('Location found.');
+		infoWindowHere.setPosition(pos);
+		infoWindowHere.setContent('Location found.');
 		giftApp.map.setCenter(pos);
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
@@ -1107,7 +1149,7 @@ giftApp.userLocationManual = () => {
             </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-    $('#submitLocation').on('click', function(e){
+      $('#submitLocation').on('click', function(e){
         e.preventDefault();
         $('.userLocationOverlay').hide();
     });
@@ -1138,9 +1180,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //Adds "layer" over top of existing map to display LCBO stores
 giftApp.initMapLCBO = (param) => {
-	const infoWindowLCBO = new google.maps.InfoWindow({
-		map: giftApp.map
-	});
+	// const infoWindowLCBO = new google.maps.InfoWindow({
+	// 	map: giftApp.map
+	// });
 	giftApp.setMarkers(giftApp.map);
 }
 
@@ -1172,35 +1214,19 @@ giftApp.setMarkers = function(map) {
             })
       })
 }
-
-
-// giftApp.getUserDetectedLocation = (userLocation) => {
-// 	giftApp.getUserLocation = $.ajax({
-// 		url: 'https://www.googleapis.com/geolocation/v1/geolocate',
-// 		dataType: 'json',
-// 		method: 'POST',
-// 		data: {
-// 			key: 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM',
-
-// 		}
-// 	})
-// }
-
-// end detect user location
-
 //EVENTS
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
-            $('.animation').addClass('createAnimation');
-            $('.mapContainer').show();
+            $('.mapContainer').fadeIn();
             giftApp.initMap();
-		$('.userInput').hide();
+            $('.userInput').hide(); //needs to be hide as animation comes in quickly
+            $('.animation').addClass('createAnimation');
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
-        giftApp.userOccasionContent = $('#occasion').find(':selected').text();
+            giftApp.userOccasionContent = $('#occasion').find(':selected').text();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
-        giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
+            giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
@@ -1213,20 +1239,28 @@ giftApp.confirmUserChoice = () => {
                 console.log('we checked something')
 		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
-            giftApp.smoothScrollBuyNow();
+                giftApp.smoothScrollBuyNow();
 	})
 }
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
-            e.preventDefault();
-            giftApp.smoothScrollSomethingDifferent();
-            console.log('selection clicked');
+            e.preventDefault(); 
             $('.animation').removeClass('createAnimation');
-            $('.alcoholResults').hide();
             $('.resultsShow').empty();
             $('.topDisplay').empty();
-            $('.userInput').show();
+            $('.userInput').fadeIn();
+            giftApp.smoothScrollSomethingDifferent();
+            $('.alcoholResults').fadeOut();
+            $('.mapContainer').fadeOut();
+             $('.zoomOut').fadeIn();
+      })
+}
+
+giftApp.closeZoomWindow = () => {
+      $('#closeZoom').on('click', function(e){
+            e.preventDefault();
+            $('.zoomOut').fadeOut();
       })
 }
 
@@ -1350,8 +1384,9 @@ giftApp.smoothScrollBuyNow = () => {
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
-	giftApp.confirmUserChoice();
-    giftApp.userChooseAgain();
+      giftApp.confirmUserChoice();
+      giftApp.userChooseAgain();
+      giftApp.closeZoomWindow();
 } //end of events()
 
 giftApp.init = () => {
