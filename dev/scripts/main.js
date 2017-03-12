@@ -1110,10 +1110,10 @@ giftApp.initMap = () => {
 // geolocation script below - this allows us to get user location
 // if autolocation is allowed
 if (navigator.geolocation) {
-     const infoWindowHere = new google.maps.InfoWindow({
+	navigator.geolocation.getCurrentPosition((position) => {
+      const infoWindowHere = new google.maps.InfoWindow({
             map: giftApp.map
       });
-	navigator.geolocation.getCurrentPosition((position) => {
 	const pos = {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
@@ -1149,7 +1149,7 @@ giftApp.userLocationManual = () => {
             </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-    $('#submitLocation').on('click', function(e){
+      $('#submitLocation').on('click', function(e){
         e.preventDefault();
         $('.userLocationOverlay').hide();
     });
@@ -1180,9 +1180,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //Adds "layer" over top of existing map to display LCBO stores
 giftApp.initMapLCBO = (param) => {
-	const infoWindowLCBO = new google.maps.InfoWindow({
-		map: giftApp.map
-	});
+	// const infoWindowLCBO = new google.maps.InfoWindow({
+	// 	map: giftApp.map
+	// });
 	giftApp.setMarkers(giftApp.map);
 }
 
@@ -1214,22 +1214,6 @@ giftApp.setMarkers = function(map) {
             })
       })
 }
-
-
-// giftApp.getUserDetectedLocation = (userLocation) => {
-// 	giftApp.getUserLocation = $.ajax({
-// 		url: 'https://www.googleapis.com/geolocation/v1/geolocate',
-// 		dataType: 'json',
-// 		method: 'POST',
-// 		data: {
-// 			key: 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM',
-
-// 		}
-// 	})
-// }
-
-// end detect user location
-
 //EVENTS
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
