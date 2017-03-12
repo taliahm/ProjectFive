@@ -145,6 +145,7 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   position: relative; }
 
 .zoomOut {
+  display: none;
   position: absolute;
   top: 0;
   right: 0;
