@@ -1262,12 +1262,14 @@ giftApp.confirmUserChoice = () => {
                 console.log('we checked something')
 		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
+            giftApp.smoothScrollBuyNow();
 	})
 }
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
             e.preventDefault();
+            giftApp.smoothScrollSomethingDifferent();
             console.log('selection clicked');
             $('.alcoholResults').hide();
             $('.resultsShow').empty();
@@ -1384,13 +1386,13 @@ giftApp.smoothScrollAlcoholResults = () => {
 giftApp.smoothScrollSomethingDifferent = () => {
     console.log('smoothscrollin');
     $('html,body').animate({
-        scrollTop: $('.header__placemat').offset().top},'slow');
+        scrollTop: $('body').offset().top},'slow');
 };
 
 giftApp.smoothScrollBuyNow = () => {
     console.log('smoothscrollin');
     $('html,body').animate({
-        scrollTop: $('.header__placemat').offset().top},'slow');
+        scrollTop: $('.mapContainer').offset().top},'slow');
 };
 
 
