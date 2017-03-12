@@ -1061,23 +1061,21 @@ giftApp.initMap = () => {
 		zoom: 8, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
-	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
+	// giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
-
-const infoWindow = new google.maps.InfoWindow({
-	map: giftApp.map
-});
-
 // if autolocation is allowed
 if (navigator.geolocation) {
+     const infoWindowHere = new google.maps.InfoWindow({
+            map: giftApp.map
+      });
 	navigator.geolocation.getCurrentPosition((position) => {
 	const pos = {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-		infoWindow.setPosition(pos);
-		infoWindow.setContent('Location found.');
+		infoWindowHere.setPosition(pos);
+		infoWindowHere.setContent('Location found.');
 		giftApp.map.setCenter(pos);
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
@@ -1193,14 +1191,14 @@ giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
             $('.animation').addClass('createAnimation');
-            $('.mapContainer').show();
+            $('.mapContainer').fadeIn();
             giftApp.initMap();
 		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
-        giftApp.userOccasionContent = $('#occasion').find(':selected').text();
+            giftApp.userOccasionContent = $('#occasion').find(':selected').text();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
-        giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
+            giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
@@ -1213,20 +1211,22 @@ giftApp.confirmUserChoice = () => {
                 console.log('we checked something')
 		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
-            giftApp.smoothScrollBuyNow();
+                giftApp.smoothScrollBuyNow();
 	})
 }
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
             e.preventDefault();
-            giftApp.smoothScrollSomethingDifferent();
+            
             console.log('selection clicked');
             $('.animation').removeClass('createAnimation');
-            $('.alcoholResults').hide();
             $('.resultsShow').empty();
             $('.topDisplay').empty();
-            $('.userInput').show();
+            $('.userInput').fadeIn();
+            giftApp.smoothScrollSomethingDifferent();
+            $('.alcoholResults').fadeOut();
+            $('.mapContainer').fadeOut();
       })
 }
 
