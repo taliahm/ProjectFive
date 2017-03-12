@@ -9,20 +9,6 @@ $sml: ( max: 570px );
 $med: ( max: 680px );
 $lrg: ( max: 750px );
 
-.animation {
-	position: absolute;
-	// bottom:25%;
-	top: 65%;
-	visibility: hidden;
-	transition:all 0.1s ease-out;
-	transform-origin: 50%;
-}
-
-.createAnimation {
-	animation: spin 10s ease-out forwards;
-}
-
-
 @keyframes spin {
 	0% {
 		visibility: visible;
