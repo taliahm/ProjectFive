@@ -1,32 +1,3 @@
-.userLocationOverlay {
-	z-index: 999;
-	background: rgba(0, 0, 0, 0.7);
-	bottom: 0;
-	top: 0;
-	left: 0;
-	right: 0;
-	position: absolute;
-	display:flex;
-	
-}
-
-#locationField {
-	margin:auto;
-	width:50%;
-	display: flex;
-	flex-direction:column;
-	align-items:center;
-}
-
-#autocomplete {
-	width: 50%;
-	padding: 10px;
-}
-
-#submitLocation {
-	@include buttonStyles();
-}
-
 .mapContainer {
 	height: 500px;
 	display: none;
