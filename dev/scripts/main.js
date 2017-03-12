@@ -1067,7 +1067,7 @@ giftApp.map;
 
 giftApp.initMap = () => {
 	giftApp.map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 43.6532, lng: 79.3832},
+		center: {lat: 43.6532, lng: -79.3832},
 		scrollwheel: false,
 		zoom: 8, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
@@ -1127,12 +1127,14 @@ giftApp.userLocationManual = () => {
 
 giftApp.setManualMarker = function(){
     var manualLocationInputted = {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude}
+    var userImage = '../../assets/mapMarkerUser.png'
     giftApp.map.setCenter(manualLocationInputted);
         var marker = new google.maps.Marker({
             position: {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude},
             map: giftApp.map, 
             title: 'your Location',
             zIndex: 8,
+            icon: userImage
              // icon: image, customizable property we could include  
            // shape: shape, customizable property we could include
         })
@@ -1162,7 +1164,7 @@ giftApp.setMarkers = function(map) {
 			map: giftApp.map, 
 			title: item[0],
 			zIndex: item[3],
-                   icon: image
+                  icon: image
 			 // icon: image, customizable property we could include  
 	       // shape: shape, customizable property we could include
 		})
@@ -1240,7 +1242,8 @@ giftApp.setMarkers = function(map) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
-        giftApp.initMap();
+            $('.mapContainer').show();
+            giftApp.initMap();
 		$('.userInput').hide();
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();

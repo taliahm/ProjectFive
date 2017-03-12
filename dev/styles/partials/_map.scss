@@ -6,16 +6,30 @@
 	left: 0;
 	right: 0;
 	position: absolute;
-	.addressInput {
-		display: flex;
-		justify-content: center;
-		align-item: center;
-	}
+	display:flex;
+	
+}
+
+#locationField {
+	margin:auto;
+	width:50%;
+	display: flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+#autocomplete {
+	width: 50%;
+	padding: 10px;
+}
+
+#submitLocation {
+	@include buttonStyles();
 }
 
 .mapContainer {
 	height: 500px;
-	// display: none;
+	display: none;
 	// display: -webkit-box;
 	// display: -ms-flexbox;
 	// display: flex;
