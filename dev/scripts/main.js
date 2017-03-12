@@ -1045,9 +1045,9 @@ giftApp.initMap = () => {
 
 // geolocation script below - this allows us to get user location
 
-// const infoWindow = new google.maps.InfoWindow({
-// 	map: giftApp.map
-// });
+const infoWindow = new google.maps.InfoWindow({
+	map: giftApp.map
+});
 
 // if autolocation is allowed
 if (navigator.geolocation) {
