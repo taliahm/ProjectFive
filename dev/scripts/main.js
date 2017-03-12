@@ -979,12 +979,54 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 		}
 	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
 		const lcboStoresTwo = dataTwo.result;
-		// console.log('second pull', lcboStoresTwo);
 		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
-		// console.log('together', lcboStoresTogether);
-		//Converts data intro array that google maps can read for markers
-		giftApp.convertStores(lcboStoresTogether); //comment out if API not working
+            giftApp.getLcboStoresThree(id, lcboStoresTogether);
 	})
+};
+
+giftApp.getLcboStoresThree = function(id, togetherResult) {
+      giftApp.lcboStorebyIdThree = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 5,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdThree).done(function(dataThree){
+            const lcboStoresThree = dataThree.result;
+            const lcboStoresTogetherAgain = [...togetherResult,...lcboStoresThree];
+            giftApp.getLcboStoresFour(id, lcboStoresTogetherAgain);
+      })
+};
+
+giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
+      giftApp.lcboStorebyIdFour = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 4,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdFour).done(function(dataFour){
+            const lcboStoresFour = dataFour.result;
+            const lcboStoresFinal = [...togetherResultAgain,...lcboStoresFour];
+            giftApp.convertStores(lcboStoresFinal); //comment out if API not working
+            // giftApp.calcLoopNumbers(lcboStoresTogether);
+      })
 };
 
 // if user manually enters location
@@ -1009,12 +1051,6 @@ giftApp.convertStores = (array) => {
 	giftApp.arrayForGoogle = array.map(function(item){
 	     return [item.name, item.latitude, item.longitude, 1, item.address_line_1, item.address_line_2, item.city, item.postal_code, item.telephone]
       });
-      giftApp.arrayForDisMatrix = array.map(function(item){
-           return {lat: Number(item.latitude), lng: Number(item.longitude)};
-      })
-      // {lat: 50.087, lng: 14.421}
-	//pass array to google maps
-      // giftApp.runDisMatrix(giftApp.userLocation);
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
 }
 
@@ -1041,23 +1077,23 @@ giftApp.initMap = () => {
 		zoom: 13, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
-	giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
+	// giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
-
-const infoWindow = new google.maps.InfoWindow({
-	map: giftApp.map
-});
-
 // if autolocation is allowed
 if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition((position) => {
+      const infoWindowHere = new google.maps.InfoWindow({
+            map: giftApp.map
+      });
 	const pos = {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-		// infoWindow.setPosition(pos);
-		// infoWindow.setContent('Location found.');
+
+		infoWindowHere.setPosition(pos);
+		infoWindowHere.setContent('Location found.');
+
 		giftApp.map.setCenter(pos);
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
@@ -1087,7 +1123,7 @@ giftApp.userLocationManual = () => {
             </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
-    $('#submitLocation').on('click', function(e){
+      $('#submitLocation').on('click', function(e){
         e.preventDefault();
         $('.userLocationOverlay').hide();
     });
@@ -1134,8 +1170,6 @@ giftApp.setMarkers = function(map) {
 			title: item[0],
 			zIndex: item[3],
                   icon: image
-			 // icon: image, customizable property we could include  
-	       // shape: shape, customizable property we could include
 		})
 		// console.log(item);
 		var contentString = `<div id="infoWindow">
@@ -1154,71 +1188,19 @@ giftApp.setMarkers = function(map) {
             })
       })
 }
-
-//using Google Maps Distance Matrix to compare distances of LCBO stores to user location
-//CURRENTLY NOT BEING CALLED, sitting dormant
-// giftApp.runDisMatrix = (param) => {
-//             console.log(giftApp.userLatLng);
-//             const test =  [{lat: 50.087692, lng:14.421150}];
-//             giftApp.distanceMatrix.getDistanceMatrix(
-//         		{
-//           		// origins:[giftApp.userLatLng], 
-//                   origins: test,
-//                   // destinations: ['Kingston, Canada', {lat: 43.4503, lng: 80.4832}],
-//           		destinations: giftApp.arrayForDisMatrix, //This array is coming from LCBO API of stores
-//           		travelMode: 'DRIVING',
-
-// }, callbackDisMatrix);
-
-// function callbackDisMatrix(response, status) {
-// 	 // console.log('disMatrix', param);
-//        console.log('dis matrix status: ' + status);
-// 	console.log('distance matrix entire response', response)
-//   if (status == 'OK') {
-//     const origins = response.originAddresses;
-//     const destinations = response.destinationAddresses;
-// 	console.log(origins);
-// 	console.log(destinations);
-//     for (var i = 0; i < origins.length; i++) {
-//       var results = response.rows[i].elements;
-//       for (var j = 0; j < results.length; j++) {
-//         var element = results[j];
-//         // var distance = element.distance.text;
-//         // var duration = element.duration.text;
-//         var from = origins[i];
-//         var to = destinations[j];
-//       }
-//     }
-//   }
-// }
-// };
-
-// giftApp.getUserDetectedLocation = (userLocation) => {
-// 	giftApp.getUserLocation = $.ajax({
-// 		url: 'https://www.googleapis.com/geolocation/v1/geolocate',
-// 		dataType: 'json',
-// 		method: 'POST',
-// 		data: {
-// 			key: 'AIzaSyD00uENO6Qambq9HrEUi91ypFcN0j7elWM',
-
-// 		}
-// 	})
-// }
-
-// end detect user location
-
 //EVENTS
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
-            $('.mapContainer').show();
+            $('.mapContainer').fadeIn();
             giftApp.initMap();
-		$('.userInput').hide();
+            $('.userInput').hide(); //needs to be hide as animation comes in quickly
+            $('.animation').addClass('createAnimation');
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
-        giftApp.userOccasionContent = $('#occasion').find(':selected').text();
+            giftApp.userOccasionContent = $('#occasion').find(':selected').text();
 		giftApp.userAlcoholChoice = $('#alcoholType').val();
-        giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
+            giftApp.userAlcoholChoiceLC = giftApp.userAlcoholChoice.toLowerCase();
 		giftApp.getLcboProductReturn(giftApp.userAlcoholChoice);  //comment out if API not working
 		// giftApp.filterByPrimeCat(alcoholResults); //comment IN if API not working
 		giftApp.getStressOfOccasion(giftApp.userOccasion);
@@ -1231,19 +1213,28 @@ giftApp.confirmUserChoice = () => {
                 console.log('we checked something')
 		    const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		    giftApp.getLcboStores(idOfChoice); //comment out if API not working
-            giftApp.smoothScrollBuyNow();
+                giftApp.smoothScrollBuyNow();
 	})
 }
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
-            e.preventDefault();
-            giftApp.smoothScrollSomethingDifferent();
-            console.log('selection clicked');
-            $('.alcoholResults').hide();
+            e.preventDefault(); 
+            $('.animation').removeClass('createAnimation');
             $('.resultsShow').empty();
             $('.topDisplay').empty();
-            $('.userInput').show();
+            $('.userInput').fadeIn();
+            giftApp.smoothScrollSomethingDifferent();
+            $('.alcoholResults').fadeOut();
+            $('.mapContainer').fadeOut();
+             $('.zoomOut').fadeIn();
+      })
+}
+
+giftApp.closeZoomWindow = () => {
+      $('#closeZoom').on('click', function(e){
+            e.preventDefault();
+            $('.zoomOut').fadeOut();
       })
 }
 
@@ -1367,8 +1358,9 @@ giftApp.smoothScrollBuyNow = () => {
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
-	giftApp.confirmUserChoice();
-    giftApp.userChooseAgain();
+      giftApp.confirmUserChoice();
+      giftApp.userChooseAgain();
+      giftApp.closeZoomWindow();
 } //end of events()
 
 giftApp.init = () => {
