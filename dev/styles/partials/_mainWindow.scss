@@ -77,7 +77,9 @@ select:focus {
 }
 
 .infoText p {
-	background-color: $colorLt;
+	@include bp(lrg) {
+		background-color: $colorLt;
+	}
 }
 
 .subhead {
@@ -126,6 +128,8 @@ select:focus {
 	margin: 10px;
 	-webkit-appearance: none;
 	-webkit-border-radius: 0px;
+	-moz-appearance: none;
+	-moz-border-radius: 0px;
 	width: 150px;
 	font-family: $secondaryFont;
 	color: $colorDk;
@@ -138,7 +142,6 @@ select:focus {
 
 .animation {
 	position: absolute;
-	// bottom:25%;
 	top: 65%;
 	visibility: hidden;
 	transition:all 0.1s ease-out;
