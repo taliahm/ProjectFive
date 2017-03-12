@@ -5,6 +5,8 @@
 	<title>What Should I Bring?</title>
 	<link rel="stylesheet" href="public/styles/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Francois+One|Lato" rel="stylesheet">
+	<link rel="stylesheet" href="https://npmcdn.com/js-offcanvas@1.0/dist/_css/minified/js-offcanvas.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="viewport" content="initial-scale=1.0" user-scalable="no">
 	<meta charset="utf-8">
 	<!-- <link rel="icon" href="../../dev/assets/favicon-96x96.ico" type="image/x-icon"> -->
@@ -16,11 +18,18 @@
 </head>
 
 <body>
-	
+
+
 	<header>
-
 		<section class="header__placemat">
-
+			<div class="infoTextContainer">
+				<button class="infoTextButton">
+					<i class="fa fa-glass" aria-hidden="true"></i>
+				</button>
+				<div class="infoText">
+					Built by <a href="http://www.jessicadelgrande.com" target="blank">Jessica Del Grande</a>, <a href="http://www.talialongname.com" target="blank">Talia Harrison-Marcassa</a> and <a href="http://www.alexghattas.com" target="blank">Alex Ghattas</a> using <a href="https://lcboapi.com/" target="blank">LCBO API</a> and <a href="https://developers.google.com/maps/documentation/javascript/" target="blank">Google Maps API</a>. Background image provided by <a href="http://www.nickghattasphotography.com" target="blank">Nick Ghattas</a> and icon's by <a href="https://thenounproject.com/" target="blank">The Noun Project</a>.
+				</div>
+			</div>
 			<div class="selectForm__wrapper">
 				<h1>What Should I Bring?</h1>
 				<p class="subhead">The app that turns you into the perfect guest</p>
@@ -99,7 +108,7 @@
 	<!-- scripts -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
-	<script src="https://code.jquery.com/ui/1.8.24/jquery-ui.js" integrity="sha256-xWbKoNW9eZkm1RodPMQHsVyql6jqeiD6IYvsGyKEW78=" crossorigin="anonymous"></script>
+	<script src="https://npmcdn.com/js-offcanvas@1.0/dist/_js/js-offcanvas.pkgd.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVbEW4i2vR1wWs403_TdJ_PVRFeOUwd20&libraries=places"></script>
 	<script src="dev/scripts/main.js"></script>
 	<!-- end scripts -->

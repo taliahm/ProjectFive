@@ -1173,6 +1173,12 @@ giftApp.setMarkers = function(map) {
       })
 }
 
+giftApp.infoText = function() {
+   $(".infoText").hide(); 
+   $("button.infoTextButton").click(function(){
+       $(this).toggleClass("active").next().slideToggle("fast");
+   });
+}
 
 // giftApp.getUserDetectedLocation = (userLocation) => {
 // 	giftApp.getUserLocation = $.ajax({
@@ -1349,6 +1355,7 @@ giftApp.smoothScrollBuyNow = () => {
 
 
 giftApp.events = () => {
+    giftApp.infoText();
 	giftApp.getUserChoice();
 	giftApp.confirmUserChoice();
     giftApp.userChooseAgain();
