@@ -23,6 +23,10 @@ h1 {
 	}
 }
 
+a {
+	color: $colorDk;
+}
+
 select:focus {
 	outline: none;
 	border: 1px solid $colorDk;
@@ -40,6 +44,7 @@ select:focus {
 	background-color: rgba(240,249,254, 0.9);
 	margin: 0 auto;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	position: relative;
@@ -49,6 +54,31 @@ select:focus {
 			padding: 10px;
 			height: auto;
 		}
+	}
+}
+
+.infoTextContainer {
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	padding: 0px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	.infoTextButton {
+		background: none;
+		border: none;
+		padding: 15px;
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+.infoText p {
+	@include bp(lrg) {
+		background-color: $colorLt;
 	}
 }
 
@@ -98,6 +128,8 @@ select:focus {
 	margin: 10px;
 	-webkit-appearance: none;
 	-webkit-border-radius: 0px;
+	-moz-appearance: none;
+	-moz-border-radius: 0px;
 	width: 150px;
 	font-family: $secondaryFont;
 	color: $colorDk;
@@ -106,4 +138,19 @@ select:focus {
 	background-repeat: no-repeat;
 	background-size: 10%;
 	background-position: 95%;
+}
+
+.animation {
+	position: absolute;
+	top: 65%;
+	visibility: hidden;
+	transition:all 0.1s ease-out;
+	transform-origin: 50%;
+	@include bp(lrg) {
+		display: none;
+	}
+}
+
+.createAnimation {
+	animation: spin 10s ease-out forwards;
 }
