@@ -63,7 +63,7 @@ giftApp.occasions = [
 //Product Ajax request
 giftApp.getLcboProductReturn = (userInput) => {
 	giftApp.getAlcohol = $.ajax({
-	    url: 'http://proxy.hackeryou.com',
+	    url: 'https://proxy.hackeryou.com',
 	    dataType: 'json',
 	    method:'GET',
 	    data: {
@@ -85,7 +85,7 @@ giftApp.getLcboProductReturn = (userInput) => {
 
 giftApp.getLcboProductReturnThree = (firstArrayReturn, userInput) => {
 	giftApp.getAlcohol = $.ajax({
-	    url: 'http://proxy.hackeryou.com',
+	    url: 'https://proxy.hackeryou.com',
 	    dataType: 'json',
 	    method:'GET',
 	    data: {
@@ -106,7 +106,7 @@ giftApp.getLcboProductReturnThree = (firstArrayReturn, userInput) => {
 
 giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, userInput) {
 	giftApp.getAlcoholTwo = $.ajax({
-	    url: 'http://proxy.hackeryou.com',
+	    url: 'https://proxy.hackeryou.com',
 	    dataType: 'json',
 	    method:'GET',
 	    data: {
@@ -134,7 +134,7 @@ giftApp.getLcboProductReturnTwo = function(firstArrayReturn, thirdArrayReturn, u
 //Call to LCBO Api to get Stores by Product ID, there are five of these
 giftApp.getLcboStores = function(id) {
 	giftApp.lcboStorebyId = $.ajax({
-		url: 'http://proxy.hackeryou.com',
+		url: 'https://proxy.hackeryou.com',
 		method: 'GET',
 		dataType: 'json',
 		data: {
@@ -156,7 +156,7 @@ giftApp.getLcboStores = function(id) {
 
 giftApp.getLcboStoresTwo = function(id, firstResult) {
 	giftApp.lcboStorebyIdTwo = $.ajax({
-		url: 'http://proxy.hackeryou.com',
+		url: 'https://proxy.hackeryou.com',
 		method: 'GET',
 		dataType: 'json',
 		data: {
@@ -178,7 +178,7 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 
 giftApp.getLcboStoresThree = function(id, togetherResult) {
       giftApp.lcboStorebyIdThree = $.ajax({
-            url: 'http://proxy.hackeryou.com',
+            url: 'https://proxy.hackeryou.com',
             method: 'GET',
             dataType: 'json',
             data: {
@@ -200,7 +200,7 @@ giftApp.getLcboStoresThree = function(id, togetherResult) {
 
 giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
       giftApp.lcboStorebyIdFour = $.ajax({
-            url: 'http://proxy.hackeryou.com',
+            url: 'https://proxy.hackeryou.com',
             method: 'GET',
             dataType: 'json',
             data: {
@@ -223,7 +223,7 @@ giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
 
 giftApp.getLcboStoresFive = function(id, togetherResultAgainFinal) {
       giftApp.lcboStorebyIdFive = $.ajax({
-            url: 'http://proxy.hackeryou.com',
+            url: 'https://proxy.hackeryou.com',
             method: 'GET',
             dataType: 'json',
             data: {
