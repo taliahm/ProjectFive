@@ -1242,6 +1242,7 @@ giftApp.setMarkers = function(map) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
+            $('.animation').addClass('createAnimation');
             $('.mapContainer').show();
             giftApp.initMap();
 		$('.userInput').hide();
