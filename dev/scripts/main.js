@@ -1007,17 +1007,11 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 		}
 	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
 		const lcboStoresTwo = dataTwo.result;
-		// console.log('second pull', lcboStoresTwo);
 		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
-		// console.log('together', lcboStoresTogether);
-		//Converts data intro array that google maps can read for markers
 		giftApp.convertStores(lcboStoresTogether); //comment out if API not working
             // giftApp.calcLoopNumbers(lcboStoresTogether);
 	})
 };
-
-
-
 
 
 giftApp.getUsersLocationManual = function() {
@@ -1041,17 +1035,6 @@ giftApp.convertStores = (array) => {
 	giftApp.arrayForGoogle = array.map(function(item){
 	     return [item.name, item.latitude, item.longitude, 1, item.address_line_1, item.address_line_2, item.city, item.postal_code, item.telephone]
       });
-      giftApp.arrayForDisMatrix = array.map(function(item){
-           return {lat: Number(item.latitude), lng: Number(item.longitude)};
-      })
-      console.log(giftApp.holdLocation);
-      giftApp.sortedStores = array.filter(function(item){
-            return item.latitude === (giftApp.holdLocation.lat + 1 || giftApp.holdLocation.lat - 1);
-      })
-      console.log(giftApp.sortedStores)
-      // {lat: 50.087, lng: 14.421}
-	//pass array to google maps
-      // giftApp.runDisMatrix(giftApp.userLocation);
 	giftApp.initMapLCBO(giftApp.arrayForGoogle); 
 }
 
@@ -1171,8 +1154,6 @@ giftApp.setMarkers = function(map) {
 			title: item[0],
 			zIndex: item[3],
                   icon: image
-			 // icon: image, customizable property we could include  
-	       // shape: shape, customizable property we could include
 		})
 		// console.log(item);
 		var contentString = `<div id="infoWindow">
@@ -1192,69 +1173,6 @@ giftApp.setMarkers = function(map) {
       })
 }
 
-giftApp.calcLoopNumbers = function(array){
-      const loopIterations = Math.floor(array.length/25);
-      console.log(loopIterations);
-      giftApp.runLoop(array, loopIterations);
-}
-
-giftApp.runLoop = function(array, loopNum) {
-            var firstIndex = 0;
-            var lastIndex = 25;
-            giftApp.runArray;
-      for(var i = loopNum; i > 0; i--){
-            console.log('running');
-            console.log(firstIndex);
-            console.log(lastIndex);
-           const runArray = array.slice(firstIndex, lastIndex);
-            firstIndex = firstIndex + 25;
-            lastIndex = lastIndex + 25;
-           giftApp.disMatrixLoop = runArray.map(function(item){
-                  return {lat: Number(item.latitude), lng: Number(item.longitude)};
-            })
-            giftApp.runDisMatrix();
-      }
-      console.log(giftApp.disMatrixLoop)
-      // console.log(runArray);
-}
-
-//using Google Maps Distance Matrix to compare distances of LCBO stores to user location
-//CANNOT USE THIS AS IT PUTS US OVER QUERY LIMIT FOR DISTANCE MATRIX
-giftApp.runDisMatrix = () => {
-            console.log(giftApp.userLatLng);
-            const test =  [{lat: 50.087692, lng:14.421150}];
-            giftApp.distanceMatrix.getDistanceMatrix(
-        		{
-          		// origins:[giftApp.userLatLng], 
-                  origins: test,
-                  // destinations: ['Kingston, Canada', {lat: 43.4503, lng: 80.4832}],
-          		destinations: giftApp.disMatrixLoop, //This array is coming from LCBO API of stores
-          		travelMode: 'DRIVING',
-
-}, callbackDisMatrix);
-
-function callbackDisMatrix(response, status) {
-	 // console.log('disMatrix', param);
-       console.log('dis matrix status: ' + status);
-	console.log('distance matrix entire response', response)
-  if (status == 'OK') {
-    const origins = response.originAddresses;
-    const destinations = response.destinationAddresses;
-	console.log(origins);
-	console.log(destinations);
-    // for (var i = 0; i < origins.length; i++) {
-    //   var results = response.rows[i].elements;
-    //   for (var j = 0; j < results.length; j++) {
-    //     var element = results[j];
-    //     // var distance = element.distance.text;
-    //     // var duration = element.duration.text;
-    //     var from = origins[i];
-    //     var to = destinations[j];
-      // }
-    // }
-  }
-}
-};
 
 // giftApp.getUserDetectedLocation = (userLocation) => {
 // 	giftApp.getUserLocation = $.ajax({

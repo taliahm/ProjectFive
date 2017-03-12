@@ -17,7 +17,7 @@ $lrg: ( max: 750px );
 }
 
 .createAnimation {
-	animation: spin 5s ease-in-out forwards;
+	animation: spin 10s ease-out forwards;
 }
 
 
@@ -29,7 +29,7 @@ $lrg: ( max: 750px );
 
 	
  100% {
-	transform: rotate(2180deg);
+	transform: rotate(4380deg);
  }
 
 }
