@@ -392,6 +392,13 @@ giftApp.setMarkers = function(map) {
       })
 }
 
+giftApp.infoText = function() {
+   $(".infoText").hide(); 
+   $("button.infoTextButton").click(function(){
+       $(this).toggleClass("active").next().slideToggle("fast");
+   });
+}
+
 //EVENTS
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
@@ -553,6 +560,7 @@ giftApp.smoothScroll = (targetElem) => {
 
 
 giftApp.events = () => {
+    giftApp.infoText();
 	giftApp.getUserChoice();
       giftApp.confirmUserChoice();
       giftApp.userChooseAgain();
