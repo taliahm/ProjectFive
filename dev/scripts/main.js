@@ -261,7 +261,7 @@ giftApp.getUsersLocationManual = function() {
         });
 };
 
-//Function to map over returned stores and pull out lat/lng for Google Distance Matrix
+//Function to map over returned stores and pull out lat/lng for Google Markers
 giftApp.convertStores = (array) => {
 	giftApp.arrayForGoogle = array.map(function(item){
 	     return [item.name, item.latitude, item.longitude, 1, item.address_line_1, item.address_line_2, item.city, item.postal_code, item.telephone]
@@ -276,13 +276,11 @@ giftApp.filterByPrimeCat = (array) => {
 		const arrayByName = array.filter(function(element){
 			return element.primary_category === filterParam;
 		})
-		// console.log('this should be an array', finalAlcoholArray);
 		giftApp.filterByBudget(arrayByName);
 }
 
 
 // this map script creates and displays the map object, don't mess with it!
-
 giftApp.map;
 
 giftApp.initMap = () => {
@@ -292,7 +290,6 @@ giftApp.initMap = () => {
 		zoom: 13, 
             styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"saturation":"0"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#d6d4d4"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#0f4e84"},{"visibility":"on"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"lightness":"11"},{"saturation":"18"}]}]
 		});
-	// giftApp.distanceMatrix = new google.maps.DistanceMatrixService(); //distance matrix being woken up
 
 // geolocation script below - this allows us to get user location
 // if autolocation is allowed
@@ -314,28 +311,24 @@ if (navigator.geolocation) {
 		const userLat = pos.lat;
 		const userLong =  pos.lng;
 		giftApp.userLatLng = `${userLat}, ${userLong}`;
-		console.log('users position', giftApp.userLatLng);
 
 	}, function() {
-	// handleLocationError(true, infoWindow, giftApp.map.getCenter());
-		// If users denies to auto locate
+		// If users denies to auto locate, run these functions
 		giftApp.userLocationManual();
             giftApp.getUsersLocationManual();
-
 	});
 	} else {
 	// if browser doesn't support geolocation
-	handleLocationError(false, giftApp.map.getCenter());
+	     handleLocationError(false, giftApp.map.getCenter());
 	}
 } // end giftApp.initMap
 
 giftApp.userLocationManual = () => {
 	let manualLocationEl = 
 			`<form id="locationField">
-                 <input id="autocomplete" placeholder="Enter your address"
-                type="text"></input>
-                <input id="submitLocation" value="find" type="submit"></input>
-            </form>`
+                        <input id="autocomplete" placeholder="Enter your address" type="text"></input>
+                        <input id="submitLocation" value="find" type="submit"></input>
+                   </form>`
 	let manualLocation = $('<div class="userLocationOverlay">').append(manualLocationEl);
 	$('.alcoholResults').append(manualLocation);
       $('#submitLocation').on('click', function(e){
@@ -349,14 +342,12 @@ giftApp.setManualMarker = function(){
     var manualLocationInputted = {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude}
     var userImage = '../../assets/mapMarkerUser.png'
     giftApp.map.setCenter(manualLocationInputted);
-        var marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
             position: {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude},
             map: giftApp.map, 
             title: 'your Location',
             zIndex: 8,
             icon: userImage
-             // icon: image, customizable property we could include  
-           // shape: shape, customizable property we could include
         })
 }
 
@@ -369,9 +360,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //Adds "layer" over top of existing map to display LCBO stores
 giftApp.initMapLCBO = (param) => {
-	// const infoWindowLCBO = new google.maps.InfoWindow({
-	// 	map: giftApp.map
-	// });
 	giftApp.setMarkers(giftApp.map);
 }
 
@@ -386,7 +374,7 @@ giftApp.setMarkers = function(map) {
 			zIndex: item[3],
                   icon: image
 		})
-		// console.log(item);
+
 		var contentString = `<div id="infoWindow">
                                     <h6>LCBO Store at ${item[0]}</h6>
                                     <p>Address: ${item[4]}</p>
@@ -403,6 +391,7 @@ giftApp.setMarkers = function(map) {
             })
       })
 }
+
 //EVENTS
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
@@ -430,14 +419,9 @@ giftApp.confirmUserChoice = () => {
 		giftApp.getLcboStores(idOfChoice); //comment out if API not working
             giftApp.smoothScroll('mapContainer');
             $('.zoomOut').fadeIn();
-            // giftApp.deleteMarkers(); //empty array of markers
 	})
 }
 
-// giftApp.deleteMarkers = () => {
-//       setMapOnAll(null);
-//       giftApp.arrayForGoogle = [];
-// }
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(){
@@ -455,7 +439,6 @@ giftApp.userChooseAgain = () => {
             //  $('.zoomOut').fadeOut();
              // giftApp.deleteMarkers(); //empty array of markers
             // $('.userLocationOverlay').addClass('hideForGood');
-
       })
 }
 
@@ -465,7 +448,9 @@ giftApp.closeZoomWindow = () => {
             $('.zoomOut').fadeOut();
       })
 }
+//end of click events
 
+//Filter returned Data from first set of Ajax calls
 giftApp.filterByBudget = (finalArray) => {
 	if(giftApp.userBudget === 'low'){
 		const finalBudgetArray = finalArray.filter((element) => {
@@ -491,10 +476,7 @@ giftApp.filterByBudget = (finalArray) => {
 	}
 }
 
-
 giftApp.sortedArray = (passedData) => {
-	// console.log('passed occasion', giftApp.stressLevel); // users true or false
-
 	var sortedByAbv = _.sortBy(passedData, 'alcohol_content')
 	const arrayHalfLength = Math.floor(sortedByAbv.length / 2);
 	if (giftApp.stressLevel === false ) {
@@ -507,14 +489,13 @@ giftApp.sortedArray = (passedData) => {
 	}
 } 
 
-
 giftApp.getFinalArray = (array) => {
 	let randomArray = _.shuffle(array);
 	let finalArray = randomArray.slice(0, 6);
 	giftApp.displayAlcohol(finalArray);
 }
 
-
+//Display results on page
 giftApp.displayAlcohol = (array) => {
 	$('.alcoholResults').show();
       giftApp.smoothScroll('alcoholResults');
@@ -580,7 +561,6 @@ giftApp.events = () => {
 
 giftApp.init = () => {
    	giftApp.events();
-	// giftApp.initMap();
 } //end of init();
 
 $(function() {
