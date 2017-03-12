@@ -1032,13 +1032,19 @@ giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
 // if user manually enters location
 giftApp.getUsersLocationManual = function() {
         var input = $('#autocomplete')[0];
-        var autocomplete = new google.maps.places.Autocomplete(input);
+        // var constrain =  {componentRestrictions:{country:'CA'}};
+        var constrain  = {componentRestrictions:{country:'CA'}};
+        var autocomplete = new google.maps.places.Autocomplete(input, constrain);
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
             var place = autocomplete.getPlace();
             giftApp.inputLocationName = place.name;
             giftApp.inputLatitude = place.geometry.location.lat();
             giftApp.inputLongitude = place.geometry.location.lng();
         });
+        // google.maps.event.addListener(giftApp.map, 'bounds_changed', function() {
+        //     console.log('change boundaries');
+        //     setComponentRestrictions(restrictions:ComponentRestrictions)
+        // });
         google.maps.event.addDomListener(input, 'keydown', function(e) { 
         if (e.keyCode === 13) { 
             e.preventDefault(); 
