@@ -1327,6 +1327,7 @@ giftApp.getFinalArray = (array) => {
 
 giftApp.displayAlcohol = (array) => {
 	$('.alcoholResults').show();
+    giftApp.smoothScrollAlcoholResults();
 	$('.resultsShow').empty();
       //show user's choice
       if(giftApp.userBudget === 'low') {
@@ -1373,23 +1374,30 @@ giftApp.getStressOfOccasion = (param) => {
 	giftApp.stressLevel = truthie[0]
 }
 
-giftApp.smoothScroll = () => {
-	$('a[href^="#"]').on('click', function (e) {
-		e.preventDefault();
 
-		var targetLink = this.hash;
-		var $targetLink = $(targetLink);
-
-		$('html, body').stop().animate({
-			'scrollTop': $targetLink.offset().top
-		}, 900, 'swing');
-	});
+giftApp.smoothScrollAlcoholResults = () => {
+    console.log('smoothscrollin');
+    $('html,body').animate({
+        scrollTop: $('.alcoholResults').offset().top},'slow');
 };
+
+giftApp.smoothScrollSomethingDifferent = () => {
+    console.log('smoothscrollin');
+    $('html,body').animate({
+        scrollTop: $('.header__placemat').offset().top},'slow');
+};
+
+giftApp.smoothScrollBuyNow = () => {
+    console.log('smoothscrollin');
+    $('html,body').animate({
+        scrollTop: $('.header__placemat').offset().top},'slow');
+};
+
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
 	giftApp.confirmUserChoice();
-      giftApp.userChooseAgain();
+    giftApp.userChooseAgain();
 } //end of events()
 
 giftApp.init = () => {
