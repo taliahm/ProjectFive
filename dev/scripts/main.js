@@ -1045,9 +1045,9 @@ giftApp.initMap = () => {
 
 // geolocation script below - this allows us to get user location
 
-const infoWindow = new google.maps.InfoWindow({
-	map: giftApp.map
-});
+// const infoWindow = new google.maps.InfoWindow({
+// 	map: giftApp.map
+// });
 
 // if autolocation is allowed
 if (navigator.geolocation) {
@@ -1056,8 +1056,8 @@ if (navigator.geolocation) {
 		lat: position.coords.latitude,
 		lng: position.coords.longitude
 		};
-		infoWindow.setPosition(pos);
-		infoWindow.setContent('Location found.');
+		// infoWindow.setPosition(pos);
+		// infoWindow.setContent('Location found.');
 		giftApp.map.setCenter(pos);
 		giftApp.holdLocation = pos;
 		const userLat = pos.lat;
@@ -1074,7 +1074,7 @@ if (navigator.geolocation) {
 	});
 	} else {
 	// if browser doesn't support geolocation
-	handleLocationError(false, infoWindow, giftApp.map.getCenter());
+	handleLocationError(false, giftApp.map.getCenter());
 	}
 } // end giftApp.initMap
 
@@ -1118,9 +1118,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 //Adds "layer" over top of existing map to display LCBO stores
 giftApp.initMapLCBO = (param) => {
-	const infoWindowLCBO = new google.maps.InfoWindow({
-		map: giftApp.map
-	});
+	// const infoWindowLCBO = new google.maps.InfoWindow({
+	// 	map: giftApp.map
+	// });
 	giftApp.setMarkers(giftApp.map);
 }
 
