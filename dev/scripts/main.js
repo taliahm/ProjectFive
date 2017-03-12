@@ -1272,6 +1272,7 @@ giftApp.userChooseAgain = () => {
             e.preventDefault();
             giftApp.smoothScrollSomethingDifferent();
             console.log('selection clicked');
+            $('.animation').removeClass('createAnimation');
             $('.alcoholResults').hide();
             $('.resultsShow').empty();
             $('.topDisplay').empty();
