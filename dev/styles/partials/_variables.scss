@@ -15,7 +15,9 @@ $lrg: ( max: 750px );
 	top: 65%;
 	visibility: hidden;
 	transition:all 0.1s ease-out;
-	transform-origin: 50%;
+	// transform-origin: 50%;
+	left: 45%;
+	transform: translate(50%, -50%);
 }
 
 .createAnimation {

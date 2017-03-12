@@ -98,6 +98,8 @@ select:focus {
 	margin: 10px;
 	-webkit-appearance: none;
 	-webkit-border-radius: 0px;
+	-moz-appearance: none;
+	-moz-border-radius: 0px;
 	width: 150px;
 	font-family: $secondaryFont;
 	color: $colorDk;
