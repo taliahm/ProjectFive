@@ -340,7 +340,7 @@ giftApp.userLocationManual = () => {
 
 giftApp.setManualMarker = function(){
     var manualLocationInputted = {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude}
-    var userImage = '../../assets/mapMarkerUser.png'
+    var userImage = '../assets/mapMarkerUser.png'
     giftApp.map.setCenter(manualLocationInputted);
     var marker = new google.maps.Marker({
             position: {lat: giftApp.inputLatitude, lng: giftApp.inputLongitude},
@@ -365,7 +365,7 @@ giftApp.initMapLCBO = (param) => {
 
 giftApp.setMarkers = function(map) {
     giftApp.setManualMarker();
-      let image = '../../assets/mapMarker.png';
+      let image = '../assets/mapMarker.png';
 	giftApp.arrayForGoogle.forEach(function(item){
 		var marker = new google.maps.Marker({
 			position: {lat: item[1], lng: item[2]},
@@ -421,7 +421,6 @@ giftApp.getUserChoice = () => {
 giftApp.confirmUserChoice = () => {
 	$('#confirm').on('click', function(e){
 		e.preventDefault();
-            console.log('we checked something')
 		const idOfChoice = $('input[name=chooseAlcohol]:checked').data('id')
 		giftApp.getLcboStores(idOfChoice); //comment out if API not working
             giftApp.smoothScroll('mapContainer');
