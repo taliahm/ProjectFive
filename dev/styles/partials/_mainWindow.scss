@@ -42,9 +42,12 @@ select:focus {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	@include bp(med) {
-		padding: 10px;
-		height: auto;
+	@include bp(lrg) {
+		width: 100%;
+		@include bp(med) {
+			padding: 10px;
+			height: auto;
+		}
 	}
 }
 
