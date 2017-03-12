@@ -1016,14 +1016,37 @@ giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
                   params: {
                         key: giftApp.lcboKey,
                         product_id: id,
-                        page: 4,
+                        page: 5,
                         per_page: 100
                   },
                   xmlToJSON: false
             }
       });$.when(giftApp.lcboStorebyIdFour).done(function(dataFour){
             const lcboStoresFour = dataFour.result;
-            const lcboStoresFinal = [...togetherResultAgain,...lcboStoresFour];
+            const lcboStoresAlmostDone = [...togetherResultAgain,...lcboStoresFour];
+            giftApp.getLcboStoresFive(id, lcboStoresAlmostDone);
+            // giftApp.calcLoopNumbers(lcboStoresTogether);
+      })
+};
+
+giftApp.getLcboStoresFive = function(id, togetherResultAgainFinal) {
+      giftApp.lcboStorebyIdFive = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 4,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdFive).done(function(dataFive){
+            const lcboStoresFive = dataFive.result;
+            const lcboStoresFinal = [...togetherResultAgainFinal,...lcboStoresFive];
             giftApp.convertStores(lcboStoresFinal); //comment out if API not working
             // giftApp.calcLoopNumbers(lcboStoresTogether);
       })
@@ -1221,20 +1244,32 @@ giftApp.confirmUserChoice = () => {
 		giftApp.getLcboStores(idOfChoice); //comment out if API not working
             giftApp.smoothScroll('mapContainer');
             $('.zoomOut').fadeIn();
+            // giftApp.deleteMarkers(); //empty array of markers
 	})
 }
 
+// giftApp.deleteMarkers = () => {
+//       setMapOnAll(null);
+//       giftApp.arrayForGoogle = [];
+// }
+
 giftApp.userChooseAgain = () => {
-      $('#newSelection').on('click', function(e){
-            e.preventDefault(); 
-            $('.animation').removeClass('createAnimation');
-            $('.resultsShow').empty();
-            $('.topDisplay').empty();
-            $('.userInput').fadeIn();
-            giftApp.smoothScroll('header__placemat');
-            $('.alcoholResults').fadeOut();
-            $('.mapContainer').fadeOut();
-             $('.zoomOut').fadeOut();
+      $('#newSelection').on('click', function(){
+            location.reload();
+            //page reload, ignore everything else
+            // e.preventDefault(); 
+            // $('.animation').removeClass('createAnimation');
+            // // $('.resultsShow').empty();
+            // // $('.topDisplay').empty();
+            // $('alcoholResults').empty();
+            // $('.userInput').fadeIn();
+            // giftApp.smoothScroll('header__placemat');
+            // $('.alcoholResults').fadeOut();
+            // $('.mapContainer').fadeOut();
+            //  $('.zoomOut').fadeOut();
+             // giftApp.deleteMarkers(); //empty array of markers
+            // $('.userLocationOverlay').addClass('hideForGood');
+
       })
 }
 
