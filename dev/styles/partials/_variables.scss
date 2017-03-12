@@ -9,3 +9,27 @@ $sml: ( max: 570px );
 $med: ( max: 680px );
 $lrg: ( max: 750px );
 
+.animation {
+	position: absolute;
+	bottom:150px;
+	visibility: hidden;
+	transition:all 0.1s ease-out;
+}
+
+.createAnimation {
+	animation: spin 5s ease-in-out forwards;
+}
+
+
+@keyframes spin {
+	0% {
+		visibility: visible;
+		transform: rotate(0deg);
+	}
+
+	
+ 100% {
+	transform: rotate(2180deg);
+ }
+
+}
