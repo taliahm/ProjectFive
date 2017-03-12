@@ -1008,9 +1008,53 @@ giftApp.getLcboStoresTwo = function(id, firstResult) {
 	});$.when(giftApp.lcboStorebyIdTwo).done(function(dataTwo){
 		const lcboStoresTwo = dataTwo.result;
 		const lcboStoresTogether = [...firstResult,...lcboStoresTwo];
-		giftApp.convertStores(lcboStoresTogether); //comment out if API not working
-            // giftApp.calcLoopNumbers(lcboStoresTogether);
+            giftApp.getLcboStoresThree(id, lcboStoresTogether);
 	})
+};
+
+giftApp.getLcboStoresThree = function(id, togetherResult) {
+      giftApp.lcboStorebyIdThree = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 5,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdThree).done(function(dataThree){
+            const lcboStoresThree = dataThree.result;
+            const lcboStoresTogetherAgain = [...togetherResult,...lcboStoresThree];
+            giftApp.getLcboStoresFour(id, lcboStoresTogetherAgain);
+      })
+};
+
+giftApp.getLcboStoresFour = function(id, togetherResultAgain) {
+      giftApp.lcboStorebyIdFour = $.ajax({
+            url: 'http://proxy.hackeryou.com',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                  reqUrl: 'http://lcboapi.com/stores',
+                  params: {
+                        key: giftApp.lcboKey,
+                        product_id: id,
+                        page: 4,
+                        per_page: 100
+                  },
+                  xmlToJSON: false
+            }
+      });$.when(giftApp.lcboStorebyIdFour).done(function(dataFour){
+            const lcboStoresFour = dataFour.result;
+            const lcboStoresFinal = [...togetherResultAgain,...lcboStoresFour];
+            giftApp.convertStores(lcboStoresFinal); //comment out if API not working
+            // giftApp.calcLoopNumbers(lcboStoresTogether);
+      })
 };
 
 
@@ -1190,10 +1234,10 @@ giftApp.setMarkers = function(map) {
 giftApp.getUserChoice = () => {
 	$('#giftMe').on('click', function(e){
 		e.preventDefault();
-            $('.animation').addClass('createAnimation');
             $('.mapContainer').fadeIn();
             giftApp.initMap();
-		$('.userInput').hide();
+            $('.userInput').hide(); //needs to be hide as animation comes in quickly
+            $('.animation').addClass('createAnimation');
 		giftApp.userBudget = $('#budget').val();
 		giftApp.userOccasion = $('#occasion').val();
             giftApp.userOccasionContent = $('#occasion').find(':selected').text();
@@ -1217,9 +1261,7 @@ giftApp.confirmUserChoice = () => {
 
 giftApp.userChooseAgain = () => {
       $('#newSelection').on('click', function(e){
-            e.preventDefault();
-            
-            console.log('selection clicked');
+            e.preventDefault(); 
             $('.animation').removeClass('createAnimation');
             $('.resultsShow').empty();
             $('.topDisplay').empty();
@@ -1227,6 +1269,14 @@ giftApp.userChooseAgain = () => {
             giftApp.smoothScrollSomethingDifferent();
             $('.alcoholResults').fadeOut();
             $('.mapContainer').fadeOut();
+             $('.zoomOut').fadeIn();
+      })
+}
+
+giftApp.closeZoomWindow = () => {
+      $('#closeZoom').on('click', function(e){
+            e.preventDefault();
+            $('.zoomOut').fadeOut();
       })
 }
 
@@ -1350,8 +1400,9 @@ giftApp.smoothScrollBuyNow = () => {
 
 giftApp.events = () => {
 	giftApp.getUserChoice();
-	giftApp.confirmUserChoice();
-    giftApp.userChooseAgain();
+      giftApp.confirmUserChoice();
+      giftApp.userChooseAgain();
+      giftApp.closeZoomWindow();
 } //end of events()
 
 giftApp.init = () => {

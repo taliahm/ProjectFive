@@ -30,9 +30,40 @@
 .mapContainer {
 	height: 500px;
 	display: none;
+	position: relative;
 	// display: -webkit-box;
 	// display: -ms-flexbox;
 	// display: flex;
+}
+
+.zoomOut {
+	position: absolute;
+	top:0;
+	right:0;
+	z-index: 9;
+	background: transparentize($colorDk, 0.3);
+	color:white;
+	letter-spacing: 1.2px;
+	font-size: 1.2rem;
+	padding: 2px 10px 15px 10px;
+	text-transform: uppercase;
+	text-align: center;
+	p {
+		margin:0;
+		line-height: 1.5;
+	}
+	a {
+		text-decoration: none;
+		color:white;
+		transition: all 0.3s ease-in;
+		&:hover i.fa-times{
+			transform: scale(1.2);
+		}
+	}
+}
+
+.zoomOut .justify {
+	text-align: right;
 }
 
 #map {
