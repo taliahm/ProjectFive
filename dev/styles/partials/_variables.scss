@@ -11,9 +11,11 @@ $lrg: ( max: 750px );
 
 .animation {
 	position: absolute;
-	bottom:150px;
+	// bottom:25%;
+	top: 65%;
 	visibility: hidden;
 	transition:all 0.1s ease-out;
+	transform-origin: 50%;
 }
 
 .createAnimation {
