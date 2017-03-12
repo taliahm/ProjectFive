@@ -23,9 +23,15 @@ h1 {
 	}
 }
 
+select:focus {
+	outline: none;
+	border: 1px solid $colorDk;
+}
+
 .button {
 	@include buttonStyles;
 	margin-bottom: 15px;
+	transition: all 0.30s ease-in-out;
 }
 
 .header__placemat {

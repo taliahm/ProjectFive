@@ -1374,11 +1374,11 @@ giftApp.displayAlcohol = (array) => {
 	$('.resultsShow').empty();
       //show user's choice
       if(giftApp.userBudget === 'low') {
-            var displayBudget = '$';
+            var displayBudget = 'small';
       } else if(giftApp.userBudget === 'medium') {
-            var displayBudget = '$$';
+            var displayBudget = 'medium';
       } else if(giftApp.userBudget === 'high') {
-            var displayBudget = '$$$';
+            var displayBudget = 'large';
       }
       let userChoiceElem = `<div class="choice">
                               <p>Looking for ${giftApp.userAlcoholChoiceLC} for ${giftApp.userOccasionContent} on a ${displayBudget} budget? These are our top picks.</p>
