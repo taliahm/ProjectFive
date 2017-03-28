@@ -188,9 +188,6 @@ header {
   background-size: cover;
   display: flex;
   align-items: center; }
-  @media (max-width: 680px) {
-    header {
-      height: auto; } }
 
 h1 {
   font-family: "Francois One", sans-serif;
@@ -220,7 +217,7 @@ select:focus {
   font-family: "Lato", sans-serif;
   background-color: #0F4E84;
   color: #F0F9FE;
-  width: 150px;
+  font-size: 1.6rem;
   margin-bottom: 15px;
   transition: all 0.30s ease-in-out; }
   .button:hover {
@@ -253,12 +250,11 @@ select:focus {
   left: 0;
   padding: 0px;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start; }
+  justify-content: flex-start; }
   .infoTextContainer .infoTextButton {
     background: none;
     border: none;
-    padding: 15px; }
+    padding: 10px 0 0 10px; }
     .infoTextContainer .infoTextButton:focus {
       outline: none; }
 
@@ -272,7 +268,8 @@ select:focus {
   line-height: 2rem;
   color: #0F4E84;
   text-align: center;
-  margin: 0 0 50px 0; }
+  margin: 0 0 50px 0;
+  font-size: 1.6rem; }
   @media (max-width: 570px) {
     .subhead {
       font-size: 1rem;
@@ -337,7 +334,7 @@ select:focus {
   display: none; }
 
 .resultItem .imageContain {
-  width: 25%; }
+  width: 45%; }
   .resultItem .imageContain img {
     max-width: 100%;
     display: block; }
@@ -355,6 +352,9 @@ form.results {
   justify-content: center;
   align-items: center;
   padding-top: 15px; }
+  @media (max-width: 940px) {
+    .resultsShow {
+      width: 100%; } }
 
 .choice {
   font-family: "Francois One", sans-serif;
@@ -395,7 +395,7 @@ form.results {
 
 .resultsLabel {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid white;
   outline: 5px solid #D9F0F5;
@@ -416,10 +416,14 @@ input[type="radio"]:checked ~ .resultsLabel {
   align-items: center;
   text-align: center; }
 
+.resultsText h2 {
+  font-size: 2rem;
+  margin: 0; }
+
 .alcoholResults__button--container {
   display: flex;
   justify-content: center;
-  padding: 10px 10px 20px 10px; }
+  padding: 20px 10px 40px 10px; }
   @media (max-width: 570px) {
     .alcoholResults__button--container {
       flex-direction: column;
@@ -436,7 +440,7 @@ input[type="radio"]:checked ~ .resultsLabel {
   font-family: "Lato", sans-serif;
   background-color: #0F4E84;
   color: #F0F9FE;
-  width: 150px;
+  font-size: 1.6rem;
   margin: 10px;
   transition: all 0.30s ease-in-out; }
   #confirm:hover, #newSelection:hover {
@@ -463,10 +467,18 @@ input[type="radio"]:checked ~ .resultsLabel {
   display: flex;
   flex-direction: column;
   align-items: center; }
+  @media (max-width: 680px) {
+    #locationField {
+      width: 95%;
+      margin: 60px auto 10px auto; } }
 
 #autocomplete {
   width: 50%;
-  padding: 10px; }
+  padding: 10px;
+  font-size: 1.6rem; }
+  @media (max-width: 680px) {
+    #autocomplete {
+      width: 100%; } }
 
 #submitLocation {
   -webkit-appearance: none;
@@ -479,7 +491,7 @@ input[type="radio"]:checked ~ .resultsLabel {
   font-family: "Lato", sans-serif;
   background-color: #0F4E84;
   color: #F0F9FE;
-  width: 150px; }
+  font-size: 1.6rem; }
   #submitLocation:hover {
     background-color: #F0F9FE;
     color: #0F4E84;

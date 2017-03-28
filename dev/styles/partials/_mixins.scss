@@ -9,7 +9,8 @@
 	font-family: $secondaryFont;
 	background-color: $colorDk;
 	color: $colorLt;
-	width: 150px;
+	// width: 150px;
+	font-size: 1.6rem;
 	&:hover {
 		background-color: $colorLt;
 		color: $colorDk;
@@ -35,6 +36,11 @@
 	@if $size == 'lrg' {
 		@media (max-width: 750px) { 
 			@content; 
+		}
+	}
+	@if $size == 'xlrg' {
+		@media (max-width: 940px ) {
+			@content;
 		}
 	}
 }

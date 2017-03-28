@@ -5,7 +5,7 @@
 
 //Just making result images smaller for now
 .resultItem .imageContain {
-	width:25%;
+	width:45%;
 	img {
 		max-width: 100%;
 		display: block;
@@ -27,6 +27,9 @@ form.results {
 	justify-content: center;
 	align-items: center;
 	padding-top: 15px;
+	@include bp(xlrg){
+		width: 100%;
+	}
 }
 
 .choice {
@@ -73,7 +76,8 @@ form.results {
 
 .resultsLabel {
 	display: flex;
-	flex-direction: column;
+	// flex-direction: column;
+	justify-content: space-around;
 	align-items: center;
 	border: 1px solid white;
 	outline: 5px solid $colorMd;
@@ -98,10 +102,15 @@ input[type="radio"]:checked ~ .resultsLabel {
 	text-align: center;
 }
 
+.resultsText h2 {
+	font-size: 2rem;
+	margin: 0;
+}
+
 .alcoholResults__button--container {
 	display: flex;
 	justify-content: center;
-	padding: 10px 10px 20px 10px;
+	padding: 20px 10px 40px 10px;
 	@include bp(sml) {
 		flex-direction: column;
 		align-items: center;
@@ -136,11 +145,19 @@ input[type="radio"]:checked ~ .resultsLabel {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	@include bp(med){
+		width: 95%;
+		margin: 60px auto 10px auto;
+	}
 }
 
 #autocomplete {
 	width: 50%;
 	padding: 10px;
+	font-size: 1.6rem;
+	@include bp(med) {
+		width: 100%;
+	}
 }
 
 #submitLocation {
